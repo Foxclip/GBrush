@@ -128,14 +128,14 @@ object MainForm: TMainForm
       Anchors = [akBottom]
       BorderSpacing.Bottom = 20
       ItemHeight = 15
-      ItemIndex = 0
+      ItemIndex = 1
       Items.Strings = (
         'Solid'
         'Clear'
       )
       OnSelect = BrushStyleChoiceSelect
       TabOrder = 0
-      Text = 'Solid'
+      Text = 'Clear'
     end
     object AngleLabel: TLabel
       AnchorSideBottom.Control = AngleNumSpinEdit
@@ -198,7 +198,7 @@ object MainForm: TMainForm
       MinValue = 1
       OnEditingDone = PenSizeSpinEditEditingDone
       TabOrder = 2
-      Value = 5
+      Value = 1
     end
   end
   object Pallet: TDrawGrid

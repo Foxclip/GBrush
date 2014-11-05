@@ -125,8 +125,8 @@ begin
     Sender, Shift, MousePoint);
   if GlobalIsMouseDownMiddle then
   begin
-    Offset.x -= (X - MouseLastX) / Scale;
-    Offset.y -= (Y - MouseLastY) / Scale;
+    Offset.x -= (X - MouseLastX) / GetScale;
+    Offset.y -= (Y - MouseLastY) / GetScale;
     MouseLastX := X;
     MouseLastY := Y;
     UpdateScrollBars;
@@ -164,19 +164,18 @@ begin
   SelectedTool := 0;
   GlobalPenColor := clBlack;
   GlobalBrushColor := clWhite;
-  GlobalBrushStyle := bsSolid;
-  GlobalPenSize := 5;
+  GlobalBrushStyle := bsClear;
+  GlobalPenSize := 1;
   GlobalAngleNum := 6;
   GlobalWidth := MainPaintBox.Width;
   GlobalHeight := MainPaintBox.Height;
-  Scale := 1;
+  SetScale(1);
   FieldBoundingBox.x2 := MainPaintBox.Width;
   FieldBoundingBox.y2 := MainPaintBox.Height;
   PalletColors[0, 0] := clRed;
   PalletColors[1, 0] := TColor($00FF00);
   PalletColors[2, 0] := clBlue;
   UpdateColors;
-  UpdateScrollBars;
 end;
 
 procedure TMainForm.FirstColorImageMouseDown(Sender: TObject;
@@ -283,8 +282,8 @@ begin
   by1 := FieldBoundingBox.y1;
   bx2 := FieldBoundingBox.x2;
   by2 := FieldBoundingBox.y2;
-  w := ox + MainPaintBox.Width / Scale;
-  h := oy + MainPaintBox.Height / Scale;
+  w := ox + MainPaintBox.Width / GetScale;
+  h := oy + MainPaintBox.Height / GetScale;
   TempBoundingBox.x1 := Math.Min(ox, bx1);
   TempBoundingBox.y1 := Math.Min(oy, by1);
   TempBoundingBox.x2 := Math.Max(w, bx2);
@@ -309,30 +308,27 @@ procedure TMainForm.OrigialSizeClick(Sender: TObject);
 begin
   with FieldBoundingBox do
     RectScale(x1, y1, x2, y2, False);
-  GlobalUpdateScrollBars;
   MainPaintBox.Invalidate;
 end;
 
 procedure TMainForm.WheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: boolean);
 begin
-  Scale *= ScaleMultiplier;
-  Offset.x += GlobalMousePoint.x * (ScaleMultiplier - 1) / Scale;
-  Offset.y += GlobalMousePoint.y * (ScaleMultiplier - 1) / Scale;
+  SetScale(GetScale * ScaleMultiplier);
+  Offset.x += GlobalMousePoint.x * (ScaleMultiplier - 1) / GetScale;
+  Offset.y += GlobalMousePoint.y * (ScaleMultiplier - 1) / GetScale;
   MainPaintBox.Invalidate;
-  UpdateScrollBars;
 end;
 
 procedure TMainForm.WheelDown(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: boolean);
 begin
-  Scale /= ScaleMultiplier;
+  SetScale(GetScale / ScaleMultiplier);
   Offset.x -= GlobalMousePoint.x * (ScaleMultiplier - 1) /
-    (ScaleMultiplier * Scale);
+    (ScaleMultiplier * GetScale);
   Offset.y -= GlobalMousePoint.y * (ScaleMultiplier - 1) /
-    (ScaleMultiplier * Scale);
+    (ScaleMultiplier * GetScale);
   MainPaintBox.Invalidate;
-  UpdateScrollBars;
 end;
 
 procedure TMainForm.BrushStyleChoiceSelect(Sender: TObject);
@@ -394,17 +390,17 @@ begin
   by1 := FieldBoundingBox.y1;
   bx2 := FieldBoundingBox.x2;
   by2 := FieldBoundingBox.y2;
-  w := ox + MainPaintBox.Width / Scale;
-  h := oy + MainPaintBox.Height / Scale;
+  w := ox + MainPaintBox.Width / GetScale;
+  h := oy + MainPaintBox.Height / GetScale;
   TempBoundingBox.x1 := Math.Min(ox, bx1);
   TempBoundingBox.y1 := Math.Min(oy, by1);
   TempBoundingBox.x2 := Math.Max(w, bx2);
   TempBoundingBox.y2 := Math.Max(h, by2);
   ScrollBarBottom.PageSize :=
-    trunc(((MainPaintBox.Width / Scale) / (TempBoundingBox.x2 -
-    TempBoundingBox.x1)) * ScrollBarBottom.Max);
+    trunc(((MainPaintBox.Width / GetScale) /
+    (TempBoundingBox.x2 - TempBoundingBox.x1)) * ScrollBarBottom.Max);
   ScrollBarSide.PageSize :=
-    trunc(((MainPaintBox.Height / Scale) /
+    trunc(((MainPaintBox.Height / GetScale) /
     (TempBoundingBox.y2 - TempBoundingBox.y1)) * ScrollBarSide.Max);
   ScrollBarBottom.Position :=
     trunc(((ox - TempBoundingBox.x1) / (TempBoundingBox.x2 -
@@ -479,7 +475,7 @@ begin
     Pen.Color := clRed;
     Pen.Width := 1;
     Brush.Style := bsClear;
-    TextOut(0, 0, 'Масштаб: ' + FloatToStr(Scale) +
+    TextOut(0, 0, 'Масштаб: ' + FloatToStr(GetScale) +
       '; Э x: ' + FloatToStr(Offset.x) + '; Э y: ' + FloatToStr(Offset.y));
     TextOut(0, 20, GlobalNote);
   end;

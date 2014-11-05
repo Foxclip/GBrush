@@ -21,11 +21,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UMainForm"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="293"/>
-        <CursorPos X="27" Y="313"/>
+        <TopLine Value="413"/>
+        <CursorPos X="14" Y="425"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -36,8 +35,8 @@
         <UnitName Value="UTools"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="230"/>
-        <CursorPos X="12" Y="252"/>
+        <TopLine Value="381"/>
+        <CursorPos X="71" Y="386"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -47,8 +46,8 @@
         <UnitName Value="UFigures"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="155"/>
-        <CursorPos X="25" Y="170"/>
+        <TopLine Value="142"/>
+        <CursorPos X="30" Y="102"/>
         <UsageCount Value="215"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -58,8 +57,8 @@
         <UnitName Value="UScale"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="71"/>
-        <CursorPos X="9" Y="100"/>
+        <TopLine Value="87"/>
+        <CursorPos X="38" Y="100"/>
         <UsageCount Value="209"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -67,11 +66,12 @@
         <Filename Value="uscaletools.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UScaleTools"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="112"/>
-        <CursorPos X="12" Y="131"/>
-        <UsageCount Value="72"/>
+        <TopLine Value="1"/>
+        <CursorPos X="22" Y="9"/>
+        <UsageCount Value="75"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -82,7 +82,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="22" Y="24"/>
-        <UsageCount Value="55"/>
+        <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
@@ -255,124 +255,124 @@
     </General>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="uscaletools.pas"/>
-        <Caret Line="116" Column="19" TopLine="77"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="28" Column="3" TopLine="16"/>
       </Position1>
       <Position2>
-        <Filename Value="uglobalpointers.pas"/>
-        <Caret Line="22" Column="11" TopLine="1"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="53" Column="36" TopLine="28"/>
       </Position2>
       <Position3>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="179" Column="34" TopLine="105"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="28" Column="17" TopLine="16"/>
       </Position3>
       <Position4>
-        <Filename Value="utools.pas"/>
-        <Caret Line="112" Column="23" TopLine="94"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="63" Column="17" TopLine="45"/>
       </Position4>
       <Position5>
-        <Filename Value="utools.pas"/>
-        <Caret Line="393" Column="53" TopLine="362"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="58" Column="17" TopLine="45"/>
       </Position5>
       <Position6>
-        <Filename Value="utools.pas"/>
-        <Caret Line="380" Column="24" TopLine="362"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="63" Column="17" TopLine="45"/>
       </Position6>
       <Position7>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="272" Column="35" TopLine="248"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="100" Column="3" TopLine="82"/>
       </Position7>
       <Position8>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="278" Column="44" TopLine="260"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="66" Column="13" TopLine="50"/>
       </Position8>
       <Position9>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="156" Column="5" TopLine="140"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="28" Column="3" TopLine="10"/>
       </Position9>
       <Position10>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="325" Column="5" TopLine="123"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="100" Column="3" TopLine="82"/>
       </Position10>
       <Position11>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="120" Column="6" TopLine="102"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="105" Column="13" TopLine="82"/>
       </Position11>
       <Position12>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="320" Column="23" TopLine="301"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="110" Column="46" TopLine="82"/>
       </Position12>
       <Position13>
-        <Filename Value="uscaletools.pas"/>
-        <Caret Line="126" Column="9" TopLine="99"/>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="395" Column="43" TopLine="372"/>
       </Position13>
       <Position14>
-        <Filename Value="uscaletools.pas"/>
-        <Caret Line="48" Column="35" TopLine="19"/>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="71" Column="15" TopLine="54"/>
       </Position14>
       <Position15>
-        <Filename Value="uscaletools.pas"/>
-        <Caret Line="46" Column="32" TopLine="29"/>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="132" Column="5" TopLine="114"/>
       </Position15>
       <Position16>
-        <Filename Value="uscaletools.pas"/>
-        <Caret Line="57" Column="39" TopLine="37"/>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="161" Column="9" TopLine="143"/>
       </Position16>
       <Position17>
-        <Filename Value="uscaletools.pas"/>
-        <Caret Line="56" Column="22" TopLine="37"/>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="302" Column="7" TopLine="285"/>
       </Position17>
       <Position18>
-        <Filename Value="utools.pas"/>
-        <Caret Line="380" Column="40" TopLine="359"/>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="380" Column="21" TopLine="362"/>
       </Position18>
       <Position19>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="88" Column="34" TopLine="70"/>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="125" Column="28" TopLine="106"/>
       </Position19>
       <Position20>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="272" Column="73" TopLine="249"/>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="63" Column="26" TopLine="45"/>
       </Position20>
       <Position21>
-        <Filename Value="utools.pas"/>
-        <Caret Line="380" Column="40" TopLine="359"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="108" Column="26" TopLine="90"/>
       </Position21>
       <Position22>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="121" Column="1" TopLine="121"/>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="33" Column="9" TopLine="15"/>
       </Position22>
       <Position23>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="493" Column="42" TopLine="426"/>
+        <Filename Value="utools.pas"/>
+        <Caret Line="105" Column="19" TopLine="88"/>
       </Position23>
       <Position24>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="99" Column="3" TopLine="88"/>
+        <Filename Value="utools.pas"/>
+        <Caret Line="434" Column="5" TopLine="372"/>
       </Position24>
       <Position25>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="443" Column="20" TopLine="411"/>
+        <Filename Value="utools.pas"/>
+        <Caret Line="400" Column="55" TopLine="382"/>
       </Position25>
       <Position26>
-        <Filename Value="uscale.pas"/>
-        <Caret Line="101" Column="30" TopLine="69"/>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="102" Column="6" TopLine="80"/>
       </Position26>
       <Position27>
-        <Filename Value="uscale.pas"/>
-        <Caret Line="40" Column="61" TopLine="22"/>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="99" Column="31" TopLine="87"/>
       </Position27>
       <Position28>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="77" Column="19" TopLine="60"/>
+        <Filename Value="utools.pas"/>
+        <Caret Line="396" Column="20" TopLine="381"/>
       </Position28>
       <Position29>
-        <Filename Value="uscaletools.pas"/>
-        <Caret Line="48" Column="19" TopLine="14"/>
+        <Filename Value="utools.pas"/>
+        <Caret Line="351" Column="15" TopLine="342"/>
       </Position29>
       <Position30>
-        <Filename Value="umainform.pas"/>
-        <Caret Line="311" Column="35" TopLine="293"/>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="64" Column="18" TopLine="51"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

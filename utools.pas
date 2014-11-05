@@ -357,8 +357,8 @@ end;
 
 //Правильный многоугольник
 
-procedure TRegularPolygonTool.MouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; MousePoint: TDoublePoint);
+procedure TRegularPolygonTool.MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; MousePoint: TDoublePoint);
 begin
   if Button = mbLeft then
   begin
@@ -375,15 +375,15 @@ begin
   end;
 end;
 
-procedure TRegularPolygonTool.MouseMove(Sender: TObject; Shift: TShiftState;
-  MousePoint: TDoublePoint);
+procedure TRegularPolygonTool.MouseMove(Sender: TObject;
+  Shift: TShiftState; MousePoint: TDoublePoint);
 begin
   if GlobalIsMouseDownLeft and (TempRegularPolygon <> nil) then
     TempRegularPolygon.BuildRegularPolygon(MousePoint);
 end;
 
-procedure TRegularPolygonTool.MouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; MousePoint: TDoublePoint);
+procedure TRegularPolygonTool.MouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; MousePoint: TDoublePoint);
 begin
   if TempFigure <> nil then
   begin

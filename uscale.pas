@@ -22,6 +22,8 @@ type
 
 const
   ScaleMultiplier = 1.1;
+  MinScale = 0.000001;
+  MaxScale = 1000000;
 
 var
   Offset: TDoublePoint;
@@ -37,28 +39,30 @@ function S2WY(y: int64): double;
 function S2W(src: TPoint): TDoublePoint;
 function W2S(src: TDoublePoint): TPoint;
 function W2SArray(src: TDoublePointArray): TPointArray;
+procedure SetScale(newscale: double);
+function GetScale(): double;
 procedure RectScale(x1, y1, x2, y2: double; exact: boolean);
 
 implementation
 
 function W2SX(x: double): int64;
 begin
-  Result := trunc((x - Offset.x) * Scale);
+  Result := trunc((x - Offset.x) * GetScale);
 end;
 
 function W2SY(y: double): int64;
 begin
-  Result := trunc((y - Offset.y) * Scale);
+  Result := trunc((y - Offset.y) * GetScale);
 end;
 
 function S2WX(x: int64): double;
 begin
-  Result := x / Scale + Offset.x;
+  Result := x / GetScale + Offset.x;
 end;
 
 function S2WY(y: int64): double;
 begin
-  Result := y / Scale + Offset.y;
+  Result := y / GetScale + Offset.y;
 end;
 
 function W2SArray(src: TDoublePointArray): TPointArray;
@@ -93,14 +97,30 @@ begin
   Result := dst;
 end;
 
+procedure SetScale(newscale: double);
+begin
+  if newscale > MaxScale then
+    Scale := MaxScale
+  else if newscale < MinScale then
+    Scale := MinScale
+  else
+    Scale := newscale;
+  GlobalUpdateScrollBars;
+end;
+
+function GetScale(): double;
+begin
+  Result := Scale;
+end;
+
 procedure RectScale(x1, y1, x2, y2: double; exact: boolean);
 begin
-  Scale *= Min((GlobalWidth / Scale) / (x2 - x1),
-    (GlobalHeight / Scale) / (y2 - y1));
+  SetScale(GetScale * (Min((GlobalWidth / GetScale) / (x2 - x1),
+    (GlobalHeight / GetScale) / (y2 - y1))));
   if not exact then
-    Scale /= ScaleMultiplier;
-  Offset.x := x1 + (x2 - x1) / 2 - GlobalWidth / Scale / 2;
-  Offset.y := y1 + (y2 - y1) / 2 - GlobalHeight / Scale / 2;
+    SetScale(GetScale / ScaleMultiplier);
+  Offset.x := x1 + (x2 - x1) / 2 - GlobalWidth / GetScale / 2;
+  Offset.y := y1 + (y2 - y1) / 2 - GlobalHeight / GetScale / 2;
 end;
 
 end.
