@@ -1,0 +1,379 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="28">
+      <Unit0>
+        <Filename Value="project1.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="project1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="10" Y="9"/>
+        <UsageCount Value="200"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="umainform.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UMainForm"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="293"/>
+        <CursorPos X="27" Y="313"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="utools.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="UTools"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="230"/>
+        <CursorPos X="12" Y="252"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="ufigures.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="UFigures"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="155"/>
+        <CursorPos X="25" Y="170"/>
+        <UsageCount Value="215"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="uscale.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="UScale"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="71"/>
+        <CursorPos X="9" Y="100"/>
+        <UsageCount Value="209"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="uscaletools.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="UScaleTools"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="112"/>
+        <CursorPos X="12" Y="131"/>
+        <UsageCount Value="72"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="uglobalpointers.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="UGlobalPointers"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="22" Y="24"/>
+        <UsageCount Value="55"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="urectangle.pas"/>
+        <UnitName Value="URectangle"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="15" Y="12"/>
+        <UsageCount Value="209"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="umoveable.pas"/>
+        <UnitName Value="UMoveable"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="7" Y="13"/>
+        <UsageCount Value="205"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="uellipse.pas"/>
+        <UnitName Value="UEllipse"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="15" Y="12"/>
+        <UsageCount Value="202"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="uline.pas"/>
+        <UnitName Value="ULine"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="15" Y="12"/>
+        <UsageCount Value="201"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="utwopointfigure.pas"/>
+        <UnitName Value="UTwoPointFigure"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="12"/>
+        <UsageCount Value="187"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="uarraypointfigure.pas"/>
+        <UnitName Value="UArrayPointFigure"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="5" Y="14"/>
+        <UsageCount Value="185"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="upolyline.pas"/>
+        <UnitName Value="UPolyLine"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="14"/>
+        <UsageCount Value="101"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="upolygon.pas"/>
+        <UnitName Value="UPolygon"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="20"/>
+        <UsageCount Value="99"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="uregularpolygon.pas"/>
+        <UnitName Value="URegularPolygon"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="3" Y="21"/>
+        <UsageCount Value="98"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="umisctools.pas"/>
+        <UnitName Value="UMiscTools"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="5" Y="12"/>
+        <UsageCount Value="59"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="C:\usr\share\lazarus\1.0.14\lcl\extctrls.pp"/>
+        <UnitName Value="ExtCtrls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="942"/>
+        <CursorPos X="3" Y="947"/>
+        <UsageCount Value="2"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="C:\usr\share\fpcsrc\2.6.4\rtl\objpas\classes\classesh.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="14"/>
+        <CursorPos X="4" Y="33"/>
+        <UsageCount Value="4"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="C:\usr\share\lazarus\1.0.14\lcl\controls.pp"/>
+        <UnitName Value="Controls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2177"/>
+        <CursorPos X="3" Y="2194"/>
+        <UsageCount Value="7"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="C:\usr\share\lazarus\1.0.14\lcl\include\fpimagebitmap.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="126"/>
+        <CursorPos X="31" Y="148"/>
+        <UsageCount Value="2"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="umainform.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="C:\usr\share\lazarus\1.0.14\lcl\graphics.pp"/>
+        <UnitName Value="Graphics"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2300"/>
+        <CursorPos X="10" Y="2320"/>
+        <UsageCount Value="5"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="C:\usr\share\fpcsrc\2.6.4\packages\fcl-image\src\fpcanvas.pp"/>
+        <UnitName Value="FPCanvas"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="457"/>
+        <CursorPos X="11" Y="420"/>
+        <UsageCount Value="3"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="C:\usr\share\lazarus\1.0.14\lcl\graphtype.pp"/>
+        <UnitName Value="GraphType"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="46"/>
+        <CursorPos X="3" Y="39"/>
+        <UsageCount Value="3"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="C:\usr\share\fpcsrc\2.6.4\rtl\objpas\types.pp"/>
+        <UnitName Value="types"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="3" Y="85"/>
+        <UsageCount Value="4"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="C:\usr\share\lazarus\1.0.14\lcl\include\rasterimage.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="285"/>
+        <CursorPos X="25" Y="305"/>
+        <UsageCount Value="5"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="C:\Users\Suburban\AppData\Local\Temp\umisctools.pas-revHEAD.svn000.tmp.pas"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="10" Y="13"/>
+        <UsageCount Value="10"/>
+      </Unit27>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="116" Column="19" TopLine="77"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uglobalpointers.pas"/>
+        <Caret Line="22" Column="11" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="179" Column="34" TopLine="105"/>
+      </Position3>
+      <Position4>
+        <Filename Value="utools.pas"/>
+        <Caret Line="112" Column="23" TopLine="94"/>
+      </Position4>
+      <Position5>
+        <Filename Value="utools.pas"/>
+        <Caret Line="393" Column="53" TopLine="362"/>
+      </Position5>
+      <Position6>
+        <Filename Value="utools.pas"/>
+        <Caret Line="380" Column="24" TopLine="362"/>
+      </Position6>
+      <Position7>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="272" Column="35" TopLine="248"/>
+      </Position7>
+      <Position8>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="278" Column="44" TopLine="260"/>
+      </Position8>
+      <Position9>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="156" Column="5" TopLine="140"/>
+      </Position9>
+      <Position10>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="325" Column="5" TopLine="123"/>
+      </Position10>
+      <Position11>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="120" Column="6" TopLine="102"/>
+      </Position11>
+      <Position12>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="320" Column="23" TopLine="301"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="126" Column="9" TopLine="99"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="48" Column="35" TopLine="19"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="46" Column="32" TopLine="29"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="57" Column="39" TopLine="37"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="56" Column="22" TopLine="37"/>
+      </Position17>
+      <Position18>
+        <Filename Value="utools.pas"/>
+        <Caret Line="380" Column="40" TopLine="359"/>
+      </Position18>
+      <Position19>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="88" Column="34" TopLine="70"/>
+      </Position19>
+      <Position20>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="272" Column="73" TopLine="249"/>
+      </Position20>
+      <Position21>
+        <Filename Value="utools.pas"/>
+        <Caret Line="380" Column="40" TopLine="359"/>
+      </Position21>
+      <Position22>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="121" Column="1" TopLine="121"/>
+      </Position22>
+      <Position23>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="493" Column="42" TopLine="426"/>
+      </Position23>
+      <Position24>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="99" Column="3" TopLine="88"/>
+      </Position24>
+      <Position25>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="443" Column="20" TopLine="411"/>
+      </Position25>
+      <Position26>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="101" Column="30" TopLine="69"/>
+      </Position26>
+      <Position27>
+        <Filename Value="uscale.pas"/>
+        <Caret Line="40" Column="61" TopLine="22"/>
+      </Position27>
+      <Position28>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="77" Column="19" TopLine="60"/>
+      </Position28>
+      <Position29>
+        <Filename Value="uscaletools.pas"/>
+        <Caret Line="48" Column="19" TopLine="14"/>
+      </Position29>
+      <Position30>
+        <Filename Value="umainform.pas"/>
+        <Caret Line="311" Column="35" TopLine="293"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>
