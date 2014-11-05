@@ -141,9 +141,10 @@ var
 begin
   MousePoint.x := S2WX(X);
   MousePoint.y := S2WY(Y);
+  if Button = mbLeft then
+    GlobalIsMouseDownLeft := False;
   if (Button = mbLeft) or (Button = mbRight) then
   begin
-    GlobalIsMouseDownLeft := False;
     ToolArray[SelectedTool].MouseUp(Sender,
       Button, Shift, MousePoint);
   end;

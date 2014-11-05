@@ -126,6 +126,11 @@ begin
     begin
       TempPenLine := TPenLine.Create;
       TempFigure := TempPenLine;
+    end
+    else
+    begin
+      AddFigure(TempPenLine);
+      TempFigure := nil;
     end;
   end;
 end;
@@ -133,7 +138,7 @@ end;
 procedure TPenTool.MouseMove(Sender: TObject; Shift: TShiftState;
   MousePoint: TDoublePoint);
 begin
-  if GlobalIsMouseDownLeft and (TempPenLine <> nil) then
+  if GlobalIsMouseDownLeft and (TempFigure <> nil) then
     TempPenLine.AddPoint(MousePoint);
 end;
 
@@ -163,6 +168,11 @@ begin
     begin
       TempLine := TLine.Create(MousePoint);
       TempFigure := TempLine;
+    end
+    else
+    begin
+      AddFigure(TempLine);
+      TempFigure := nil;
     end;
   end;
 end;
@@ -202,6 +212,11 @@ begin
     begin
       TempRectangle := TRectangle.Create(MousePoint);
       TempFigure := TempRectangle;
+    end
+    else
+    begin
+      AddFigure(TempRectangle);
+      TempFigure := nil;
     end;
   end;
 end;
@@ -241,6 +256,11 @@ begin
     begin
       TempEllipse := TEllipse.Create(MousePoint);
       TempFigure := TempEllipse;
+    end
+    else
+    begin
+      AddFigure(TempEllipse);
+      TempFigure := nil;
     end;
   end;
 end;
@@ -330,7 +350,7 @@ begin
     else
       TempPolygon.AddPoint(MousePoint);
   end;
-  if (Button = mbRight) and (TempPolygon <> nil) then
+  if (Button = mbRight) and (TempFigure <> nil) then
   begin
     TempPolygon.AddPoint(MousePoint);
     AddFigure(TempPolygon);
@@ -378,7 +398,7 @@ end;
 procedure TRegularPolygonTool.MouseMove(Sender: TObject;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
-  if GlobalIsMouseDownLeft and (TempRegularPolygon <> nil) then
+  if GlobalIsMouseDownLeft and (TempFigure <> nil) then
     TempRegularPolygon.BuildRegularPolygon(MousePoint);
 end;
 
