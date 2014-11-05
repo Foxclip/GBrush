@@ -180,7 +180,7 @@ end;
 procedure TLineTool.MouseMove(Sender: TObject; Shift: TShiftState;
   MousePoint: TDoublePoint);
 begin
-  if GlobalIsMouseDownLeft and (TempLine <> nil) then
+  if GlobalIsMouseDownLeft and (TempFigure <> nil) then
   begin
     TempLine.Point2 := MousePoint;
   end;
@@ -224,7 +224,7 @@ end;
 procedure TRectangleTool.MouseMove(Sender: TObject; Shift: TShiftState;
   MousePoint: TDoublePoint);
 begin
-  if GlobalIsMouseDownLeft and (TempRectangle <> nil) then
+  if GlobalIsMouseDownLeft and (TempFigure <> nil) then
   begin
     TempRectangle.Point2 := MousePoint;
   end;
@@ -268,7 +268,7 @@ end;
 procedure TEllipseTool.MouseMove(Sender: TObject; Shift: TShiftState;
   MousePoint: TDoublePoint);
 begin
-  if GlobalIsMouseDownLeft and (TempEllipse <> nil) then
+  if GlobalIsMouseDownLeft and (TempFigure <> nil) then
   begin
     TempEllipse.Point2 := MousePoint;
   end;

@@ -21,7 +21,6 @@ var
   GlobalIsMouseDownLeft, GlobalIsMouseDownMiddle: Boolean;
   GlobalMousePoint: TPoint;
   GlobalWidth, GlobalHeight: Integer;
-  GlobalNote: String;
 
 implementation
 

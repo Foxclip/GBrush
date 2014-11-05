@@ -23,8 +23,8 @@
         <UnitName Value="UMainForm"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="131"/>
-        <CursorPos X="34" Y="149"/>
+        <TopLine Value="127"/>
+        <CursorPos X="39" Y="481"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -33,11 +33,10 @@
         <Filename Value="utools.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UTools"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="401"/>
-        <CursorPos X="43" Y="401"/>
+        <TopLine Value="281"/>
+        <CursorPos X="41" Y="303"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -47,8 +46,8 @@
         <UnitName Value="UFigures"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="105"/>
-        <CursorPos X="27" Y="123"/>
+        <TopLine Value="111"/>
+        <CursorPos X="5" Y="135"/>
         <UsageCount Value="215"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -59,7 +58,7 @@
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="91"/>
-        <CursorPos X="38" Y="100"/>
+        <CursorPos X="64" Y="123"/>
         <UsageCount Value="209"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -67,11 +66,12 @@
         <Filename Value="uscaletools.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UScaleTools"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="7" Y="22"/>
-        <UsageCount Value="75"/>
+        <TopLine Value="79"/>
+        <CursorPos X="31" Y="74"/>
+        <UsageCount Value="76"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -81,8 +81,8 @@
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="22" Y="24"/>
-        <UsageCount Value="58"/>
+        <CursorPos X="38" Y="23"/>
+        <UsageCount Value="59"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>

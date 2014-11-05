@@ -476,9 +476,9 @@ begin
     Pen.Color := clRed;
     Pen.Width := 1;
     Brush.Style := bsClear;
-    TextOut(0, 0, 'Масштаб: ' + FloatToStr(GetScale) +
-      '; Э x: ' + FloatToStr(Offset.x) + '; Э y: ' + FloatToStr(Offset.y));
-    TextOut(0, 20, GlobalNote);
+    TextOut(0, 0, 'Масштаб: ' + FormatFloat('0.000', GetScale) +
+      '; Э x: ' + FormatFloat('0.000', Offset.x) + '; Э y: ' +
+      FormatFloat('0.000', Offset.y));
   end;
 end;
 
