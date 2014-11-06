@@ -23,7 +23,6 @@ type
 
   TZoomTool = class(TTool)
     TempZoomRectangle: TRectangle;
-    IsMouseDragged: boolean;
     procedure MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
     procedure MouseMove(Sender: TObject; Shift: TShiftState;
@@ -79,7 +78,6 @@ end;
 procedure TZoomTool.MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
-  IsMouseDragged := False;
 end;
 
 procedure TZoomTool.MouseMove(Sender: TObject; Shift: TShiftState;
@@ -87,7 +85,6 @@ procedure TZoomTool.MouseMove(Sender: TObject; Shift: TShiftState;
 begin
   if GlobalIsMouseDownLeft then
   begin
-    IsMouseDragged := True;
     if TempFigure = nil then
     begin
       TempZoomRectangle := TRectangle.Create(MousePoint);
@@ -107,10 +104,8 @@ end;
 
 procedure TZoomTool.MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
-var
-  temp: double;
 begin
-  if not IsMouseDragged then
+  if TempFigure = nil then
   begin
     if Button = mbLeft then
     begin
