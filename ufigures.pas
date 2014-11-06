@@ -112,26 +112,10 @@ end;
 
 function TTwoPointFigure.BoundingBox(): TDoubleRect;
 begin
-  if Point1.x < Point2.x then
-  begin
-    Result.x1 := Point1.x;
-    Result.x2 := Point2.x;
-  end
-  else
-  begin
-    Result.x1 := Point2.x;
-    Result.x2 := Point1.x;
-  end;
-  if Point1.y < Point2.y then
-  begin
-    Result.y1 := Point1.y;
-    Result.y2 := Point2.y;
-  end
-  else
-  begin
-    Result.y1 := Point2.y;
-    Result.y2 := Point1.y;
-  end;
+  Result.x1 := Min(Point1.x, Point2.x);
+  Result.y1 := Min(Point1.y, Point2.y);
+  Result.x2 := Max(Point1.x, Point2.x);
+  Result.y2 := Max(Point1.y, Point2.y);
 end;
 
 constructor TTwoPointFigureFilled.Create(MousePoint: TDoublePoint);
@@ -169,14 +153,10 @@ begin
   if Length(Points) > 0 then
     for i := Low(Points) to High(Points) do
     begin
-      if Points[i].x < Bounds.x1 then
-        Bounds.x1 := Points[i].x;
-      if Points[i].x > Bounds.x2 then
-        Bounds.x2 := Points[i].x;
-      if Points[i].y < Bounds.y1 then
-        Bounds.y1 := Points[i].y;
-      if Points[i].y > Bounds.y2 then
-        Bounds.y2 := Points[i].y;
+      Bounds.x1 := Min(Points[i].x, Bounds.x1);
+      Bounds.y1 := Min(Points[i].y, Bounds.y1);
+      Bounds.x2 := Max(Points[i].x, Bounds.x2);
+      Bounds.y2 := Max(Points[i].y, Bounds.y2);
     end;
   UpdateFieldBoundingBox;
 end;

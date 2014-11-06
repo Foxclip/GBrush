@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, Dialogs, Buttons, UFigures,
-  ExtCtrls, UScale,  UTools, UGlobalPointers;
+  ExtCtrls, UScale, UTools, UGlobalPointers, Math;
 
 type
 
@@ -107,6 +107,8 @@ end;
 
 procedure TZoomTool.MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
+var
+  temp: double;
 begin
   if not IsMouseDragged then
   begin
@@ -128,7 +130,14 @@ begin
   else
   begin
     with TempZoomRectangle do
-      RectScale(Point1.x, Point1.y, Point2.x, Point2.y, True);
+    begin
+      RectScale(
+        Min(Point1.x, Point2.x),
+        Min(Point1.y, Point2.y),
+        Max(Point1.x, Point2.x),
+        Max(Point1.y, Point2.y),
+        True);
+    end;
     TempFigure := nil;
   end;
   GlobalUpdateScrollBars;

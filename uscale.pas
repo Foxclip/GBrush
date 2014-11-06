@@ -115,12 +115,17 @@ end;
 
 procedure RectScale(x1, y1, x2, y2: double; exact: boolean);
 begin
-  SetScale(GetScale * (Min((GlobalWidth / GetScale) / (x2 - x1),
-    (GlobalHeight / GetScale) / (y2 - y1))));
-  if not exact then
-    SetScale(GetScale / ScaleMultiplier);
+  if exact then
+  begin
+    SetScale(GetScale * (Max((GlobalWidth / GetScale) / (x2 - x1),
+      (GlobalHeight / GetScale) / (y2 - y1))));
+  end
+  else
+    SetScale(GetScale * (Min((GlobalWidth / GetScale) / (x2 - x1),
+      (GlobalHeight / GetScale) / (y2 - y1))) / ScaleMultiplier);
   Offset.x := x1 + (x2 - x1) / 2 - GlobalWidth / GetScale / 2;
   Offset.y := y1 + (y2 - y1) / 2 - GlobalHeight / GetScale / 2;
+  GlobalUpdateScrollBars;
 end;
 
 end.
