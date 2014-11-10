@@ -15,28 +15,20 @@ type
 
   TMainForm = class(TForm)
     ColorDialog1: TColorDialog;
-    BrushStyleChoice: TComboBox;
-    AngleLabel: TLabel;
     CornerPanel: TPanel;
+    PropertyPanel: TPanel;
     SpeedButton1: TSpeedButton;
     ToolPanel: TPanel;
     ScrollBarSide: TScrollBar;
     ScrollBarBottom: TScrollBar;
-    SizeLabel: TLabel;
-    BrushStyleLabel: TLabel;
     Pallet: TDrawGrid;
     FirstColorImage: TImage;
     SecondColorImage: TImage;
     MainPaintBox: TPaintBox;
     InstrumentPanel: TPanel;
     ColorChangeButton: TSpeedButton;
-    AngleNumSpinEdit: TSpinEdit;
-    PenSizeSpinEdit: TSpinEdit;
-    procedure AngleNumEditingDone(Sender: TObject);
-    procedure BrushStyleChoiceSelect(Sender: TObject);
     procedure ColorChangeButtonClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
-    procedure PenSizeSpinEditEditingDone(Sender: TObject);
     procedure ScrollBarScroll(Sender: TObject; ScrollCode: TScrollCode;
       var ScrollPos: integer);
     procedure OrigialSizeClick(Sender: TObject);
@@ -51,7 +43,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FirstColorImageMouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: integer);
-    procedure PenSizeEditEditingDone(Sender: TObject);
     procedure SecondColorImageMouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
@@ -70,6 +61,7 @@ type
     procedure SetBrushStyle(style: TBrushStyle);
     procedure UpdateScrollBars;
     procedure UpdateGlobalRectangle;
+    procedure InitUi;
   end;
 
 const
@@ -189,14 +181,6 @@ begin
   end;
 end;
 
-procedure TMainForm.PenSizeEditEditingDone(Sender: TObject);
-begin
-  try
-    GlobalPenSize := StrToInt(PenSizeSpinEdit.Text);
-  except
-  end;
-end;
-
 procedure TMainForm.SecondColorImageMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: integer);
 begin
@@ -253,20 +237,9 @@ begin
     IsVisibleElement := False
   else
     IsVisibleElement := True;
-  AngleLabel.Visible := IsVisibleElement;
-  AngleNumSpinEdit.Visible := IsVisibleElement;
-  SizeLabel.Visible := IsVisibleElement;
-  PenSizeSpinEdit.Visible := IsVisibleElement;
-  BrushStyleLabel.Visible := IsVisibleElement;
-  BrushStyleChoice.Visible := IsVisibleElement;
   FirstColorImage.Visible := IsVisibleElement;
   SecondColorImage.Visible := IsVisibleElement;
   ColorChangeButton.Visible := IsVisibleElement;
-end;
-
-procedure TMainForm.PenSizeSpinEditEditingDone(Sender: TObject);
-begin
-  GlobalPenSize := PenSizeSpinEdit.Value;
 end;
 
 procedure TMainForm.ScrollBarScroll(Sender: TObject;
@@ -330,19 +303,6 @@ begin
   Offset.y -= GlobalMousePoint.y * (ScaleMultiplier - 1) /
     (ScaleMultiplier * GetScale);
   MainPaintBox.Invalidate;
-end;
-
-procedure TMainForm.BrushStyleChoiceSelect(Sender: TObject);
-begin
-  case BrushStyleChoice.ItemIndex of
-    0: SetBrushStyle(bsSolid);
-    1: SetBrushStyle(bsClear);
-  end;
-end;
-
-procedure TMainForm.AngleNumEditingDone(Sender: TObject);
-begin
-  GlobalAngleNum := AngleNumSpinEdit.Value;
 end;
 
 procedure TMainForm.PalletMouseDown(Sender: TObject;
@@ -488,6 +448,11 @@ var
 begin
   for i := Low(ToolArray) to High(ToolArray) do
     CreateInstrumentButton(ToolArray[i]);
+end;
+
+procedure TMainForm.InitUi;
+begin
+
 end;
 
 procedure TMainForm.CreateInstrumentButton(tool: TTool);

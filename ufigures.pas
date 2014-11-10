@@ -5,16 +5,17 @@ unit UFigures;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Dialogs, Math, UScale, UGlobalPointers;
+  Classes, SysUtils, Graphics, Dialogs, Math, UScale, UProperties,
+  UGlobalPointers;
 
 type
 
   TFigure = class
   public
-    PenColor: TColor;
-    PenStyle: TPenStyle;
-    PenSize: integer;
+    Properties: array of TProperty;
     procedure Draw(Canv: TCanvas); virtual; abstract;
+    procedure AddProperty(prop: TProperty);
+    procedure SetProperties(canv: TCanvas);
     function BoundingBox(): TDoubleRect; virtual; abstract;
     constructor Create;
   end;
@@ -98,9 +99,9 @@ implementation
 
 constructor TFigure.Create;
 begin
-  PenColor := GlobalPenColor;
-  PenStyle := GlobalPenStyle;
-  PenSize := GlobalPenSize;
+  AddProperty(TPenColorProperty.Create(GlobalPenColor));
+  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
+  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
 end;
 
 constructor TTwoPointFigure.Create(MousePoint: TDoublePoint);
@@ -112,24 +113,27 @@ end;
 
 function TTwoPointFigure.BoundingBox(): TDoubleRect;
 begin
-  Result.x1 := Min(Point1.x, Point2.x);
-  Result.y1 := Min(Point1.y, Point2.y);
-  Result.x2 := Max(Point1.x, Point2.x);
-  Result.y2 := Max(Point1.y, Point2.y);
+  with Result do
+  begin
+    x1 := Min(Point1.x, Point2.x);
+    y1 := Min(Point1.y, Point2.y);
+    x2 := Max(Point1.x, Point2.x);
+    y2 := Max(Point1.y, Point2.y);
+  end;
 end;
 
 constructor TTwoPointFigureFilled.Create(MousePoint: TDoublePoint);
 begin
   inherited Create(MousePoint);
-  BrushColor := GlobalBrushColor;
-  BrushStyle := GlobalBrushStyle;
+  AddProperty(TBrushColorProperty.Create(GlobalBrushColor));
+  AddProperty(TBrushStyleProperty.Create(GlobalBrushStyle));
 end;
 
 constructor TArrayPointFigureFilled.Create;
 begin
   inherited Create;
-  BrushColor := GlobalBrushColor;
-  BrushStyle := GlobalBrushStyle;
+  AddProperty(TBrushColorProperty.Create(GlobalBrushColor));
+  AddProperty(TBrushStyleProperty.Create(GlobalBrushStyle));
 end;
 
 constructor TRegularPolygon.Create(MousePoint: TDoublePoint);
@@ -140,24 +144,43 @@ begin
   BuildRegularPolygon(MousePoint);
 end;
 
+procedure TFigure.AddProperty(prop: TProperty);
+begin
+  SetLength(Properties, Length(Properties) + 1);
+  Properties[High(Properties)] := prop;
+end;
+
+procedure TFigure.SetProperties(canv: TCanvas);
+var
+  i: integer;
+begin
+  for i := Low(Properties) to High(Properties) do
+  begin
+    Properties[i].SetProperty(canv);
+  end;
+end;
+
 procedure TArrayPointFigure.AddPoint(MousePoint: TDoublePoint);
 var
   i: integer;
 begin
   SetLength(Points, Length(Points) + 1);
   Points[High(Points)] := MousePoint;
-  Bounds.x1 := Points[High(Points)].x;
-  Bounds.y1 := Points[High(Points)].y;
-  Bounds.x2 := Points[High(Points)].x;
-  Bounds.y2 := Points[High(Points)].y;
-  if Length(Points) > 0 then
-    for i := Low(Points) to High(Points) do
-    begin
-      Bounds.x1 := Min(Points[i].x, Bounds.x1);
-      Bounds.y1 := Min(Points[i].y, Bounds.y1);
-      Bounds.x2 := Max(Points[i].x, Bounds.x2);
-      Bounds.y2 := Max(Points[i].y, Bounds.y2);
-    end;
+  with Bounds do
+  begin
+    x1 := Points[High(Points)].x;
+    y1 := Points[High(Points)].y;
+    x2 := Points[High(Points)].x;
+    y2 := Points[High(Points)].y;
+    if Length(Points) > 0 then
+      for i := Low(Points) to High(Points) do
+      begin
+        x1 := Min(Points[i].x, x1);
+        y1 := Min(Points[i].y, y1);
+        x2 := Max(Points[i].x, x2);
+        y2 := Max(Points[i].y, y2);
+      end;
+  end;
   UpdateFieldBoundingBox;
 end;
 
@@ -172,9 +195,7 @@ procedure TPenLine.Draw(Canv: TCanvas);
 var
   i: integer;
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Pen.Style := PenStyle;
-  Canv.Pen.Width := PenSize;
+  SetProperties(canv);
   Canv.Polyline(W2SArray(Points));
 end;
 
@@ -182,9 +203,7 @@ end;
 
 procedure TLine.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Pen.Style := PenStyle;
-  Canv.Pen.Width := PenSize;
+  SetProperties(canv);
   Canv.Line(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
     W2SY(Point2.Y));
 end;
@@ -193,11 +212,7 @@ end;
 
 procedure TRectangle.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Pen.Style := PenStyle;
-  Canv.Brush.Color := BrushColor;
-  Canv.Brush.Style := BrushStyle;
-  Canv.Pen.Width := PenSize;
+  SetProperties(canv);
   Canv.Rectangle(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
     W2SY(Point2.Y));
 end;
@@ -206,11 +221,7 @@ end;
 
 procedure TEllipse.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Pen.Style := PenStyle;
-  Canv.Brush.Color := BrushColor;
-  Canv.Brush.Style := BrushStyle;
-  Canv.Pen.Width := PenSize;
+  SetProperties(canv);
   Canv.Ellipse(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
     W2SY(Point2.Y));
 end;
@@ -219,9 +230,7 @@ end;
 
 procedure TPolyLine.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Pen.Style := PenStyle;
-  Canv.Pen.Width := PenSize;
+  SetProperties(canv);
   Canv.Polyline(W2SArray(Points));
 end;
 
@@ -229,11 +238,7 @@ end;
 
 procedure TPolygon.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Pen.Style := PenStyle;
-  Canv.Brush.Color := BrushColor;
-  Canv.Brush.Style := BrushStyle;
-  Canv.Pen.Width := PenSize;
+  SetProperties(canv);
   Canv.Polygon(W2SArray(Points));
 end;
 
@@ -241,11 +246,7 @@ end;
 
 procedure TRegularPolygon.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Pen.Style := PenStyle;
-  Canv.Brush.Color := BrushColor;
-  Canv.Brush.Style := BrushStyle;
-  Canv.Pen.Width := PenSize;
+  SetProperties(canv);
   Canv.Polygon(W2SArray(Points));
 end;
 

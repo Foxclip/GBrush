@@ -16,11 +16,12 @@ var
   GlobalBrushColor: TColor;
   GlobalPenStyle: TPenStyle;
   GlobalBrushStyle: TBrushStyle;
-  GlobalPenSize: Integer;
-  GlobalAngleNum: Integer;
-  GlobalIsMouseDownLeft, GlobalIsMouseDownMiddle: Boolean;
+  GlobalPenSize: integer;
+  GlobalAngleNum: integer;
+  GlobalIsMouseDownLeft, GlobalIsMouseDownMiddle: boolean;
   GlobalMousePoint: TPoint;
-  GlobalWidth, GlobalHeight: Integer;
+  GlobalInitUi: PointerToMethod;
+  GlobalWidth, GlobalHeight: integer;
 
 implementation
 

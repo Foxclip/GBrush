@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, Dialogs, Buttons, UFigures,
-  ExtCtrls, UScale, UTools, UGlobalPointers, Math;
+  ExtCtrls, UScale, UTools, UProperties, UGlobalPointers, Math;
 
 type
 
@@ -93,10 +93,10 @@ begin
       TempZoomRectangle := TRectangle.Create(MousePoint);
       with TempZoomRectangle do
       begin
-        PenColor := clBlack;
-        PenSize := 1;
-        PenStyle := psDash;
-        BrushStyle := bsClear;
+        AddProperty(TPenColorProperty.Create(clBlack));
+        AddProperty(TPenWidthProperty.Create(1));
+        AddProperty(TPenStyleProperty.Create(psDash));
+        AddProperty(TBrushStyleProperty.Create(bsClear));
       end;
       TempFigure := TempZoomRectangle;
     end

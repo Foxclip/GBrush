@@ -10,7 +10,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   UTools,
   UFigures,
   UScale, UScaleTools, 
-UGlobalPointers;
+UGlobalPointers, UProperties;
 
 {$R *.res}
 

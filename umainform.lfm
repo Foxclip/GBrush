@@ -1,14 +1,14 @@
 object MainForm: TMainForm
-  Left = 209
+  Left = 195
   Height = 580
-  Top = 97
+  Top = 43
   Width = 1069
   Caption = 'MainForm'
   ClientHeight = 580
   ClientWidth = 1069
   OnCreate = FormCreate
   OnResize = FormResize
-  LCLVersion = '1.0.12.0'
+  LCLVersion = '1.0.14.0'
   object MainPaintBox: TPaintBox
     AnchorSideLeft.Control = InstrumentPanel
     AnchorSideLeft.Side = asrBottom
@@ -119,86 +119,19 @@ object MainForm: TMainForm
       BorderSpacing.Bottom = 10
       OnMouseDown = FirstColorImageMouseDown
     end
-    object BrushStyleChoice: TComboBox
+    object PropertyPanel: TPanel
+      AnchorSideLeft.Control = InstrumentPanel
+      AnchorSideRight.Control = InstrumentPanel
+      AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = FirstColorImage
-      Left = 20
-      Height = 23
-      Top = 456
-      Width = 100
-      Anchors = [akBottom]
-      BorderSpacing.Bottom = 20
-      ItemHeight = 15
-      ItemIndex = 1
-      Items.Strings = (
-        'Solid'
-        'Clear'
-      )
-      OnSelect = BrushStyleChoiceSelect
+      Left = 1
+      Height = 193
+      Top = 296
+      Width = 138
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Bottom = 10
+      BevelOuter = bvNone
       TabOrder = 0
-      Text = 'Clear'
-    end
-    object AngleLabel: TLabel
-      AnchorSideBottom.Control = AngleNumSpinEdit
-      AnchorSideBottom.Side = asrBottom
-      Left = 28
-      Height = 16
-      Top = 366
-      Width = 29
-      Anchors = [akBottom]
-      BorderSpacing.Bottom = 5
-      Caption = 'Углы'
-      ParentColor = False
-      WordWrap = True
-    end
-    object SizeLabel: TLabel
-      AnchorSideBottom.Control = PenSizeSpinEdit
-      AnchorSideBottom.Side = asrBottom
-      Left = 18
-      Height = 16
-      Top = 394
-      Width = 53
-      Anchors = [akBottom]
-      BorderSpacing.Bottom = 5
-      Caption = 'Толщина'
-      ParentColor = False
-    end
-    object BrushStyleLabel: TLabel
-      AnchorSideBottom.Control = BrushStyleChoice
-      Left = 30
-      Height = 16
-      Top = 435
-      Width = 68
-      Anchors = [akBottom]
-      BorderSpacing.Bottom = 5
-      Caption = 'Стиль кисти'
-      ParentColor = False
-    end
-    object AngleNumSpinEdit: TSpinEdit
-      AnchorSideBottom.Control = PenSizeSpinEdit
-      Left = 78
-      Height = 23
-      Top = 364
-      Width = 50
-      Anchors = [akBottom]
-      BorderSpacing.Bottom = 5
-      MinValue = 3
-      OnEditingDone = AngleNumEditingDone
-      TabOrder = 1
-      Value = 6
-    end
-    object PenSizeSpinEdit: TSpinEdit
-      AnchorSideBottom.Control = BrushStyleLabel
-      Left = 78
-      Height = 23
-      Top = 392
-      Width = 50
-      Anchors = [akBottom]
-      BorderSpacing.Bottom = 20
-      MaxValue = 1000
-      MinValue = 1
-      OnEditingDone = PenSizeSpinEditEditingDone
-      TabOrder = 2
-      Value = 1
     end
   end
   object Pallet: TDrawGrid
