@@ -13,6 +13,8 @@ type
     procedure SetProperty(canv: TCanvas); virtual; abstract;
   end;
 
+  PropertyArray = array of TProperty;
+
   TPenColorProperty = class(TProperty)
     PenColor: TColor;
     procedure SetProperty(canv: TCanvas); override;

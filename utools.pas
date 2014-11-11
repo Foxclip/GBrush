@@ -6,18 +6,20 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, Dialogs, Buttons, UFigures,
-  ExtCtrls, UScale, UGlobalPointers;
+  ExtCtrls, UScale, UProperties, UGlobalPointers;
 
 type
 
   TTool = class
   public
+    Properties: array of TProperty;
     procedure MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); virtual; abstract;
     procedure MouseMove(Sender: TObject; Shift: TShiftState;
       MousePoint: TDoublePoint); virtual; abstract;
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); virtual; abstract;
+    procedure AddProperty(prop: TProperty);
     function GetGlyphString: string; virtual; abstract;
   end;
 
@@ -31,6 +33,7 @@ type
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
     function GetGlyphString: string; override;
+    constructor Create;
   end;
 
   TLineTool = class(TTool)
@@ -43,6 +46,7 @@ type
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
     function GetGlyphString: string; override;
+    constructor Create;
   end;
 
   TRectangleTool = class(TTool)
@@ -55,6 +59,7 @@ type
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
     function GetGlyphString: string; override;
+    constructor Create;
   end;
 
   TEllipseTool = class(TTool)
@@ -67,6 +72,7 @@ type
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
     function GetGlyphString: string; override;
+    constructor Create;
   end;
 
   TPolyLineTool = class(TTool)
@@ -79,11 +85,11 @@ type
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
     function GetGlyphString: string; override;
+    constructor Create;
   end;
 
   TPolyGonTool = class(TTool)
   public
-    IsEditing: boolean;
     TempPolygon: TPolygon;
     procedure MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
@@ -92,6 +98,7 @@ type
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
     function GetGlyphString: string; override;
+    constructor Create;
   end;
 
   TRegularPolygonTool = class(TTool)
@@ -104,6 +111,7 @@ type
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
     function GetGlyphString: string; override;
+    constructor Create;
   end;
 
 var
@@ -115,7 +123,20 @@ procedure RegisterTool(tool: TTool);
 
 implementation
 
+procedure TTool.AddProperty(prop: TProperty);
+begin
+  SetLength(Properties, Length(Properties) + 1);
+  Properties[High(Properties)] := prop;
+end;
+
 //Карандаш
+
+constructor TPenTool.Create;
+begin
+  AddProperty(TPenColorProperty.Create(GlobalPenColor));
+  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
+  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
+end;
 
 procedure TPenTool.MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
@@ -124,7 +145,7 @@ begin
   begin
     if TempFigure = nil then
     begin
-      TempPenLine := TPenLine.Create;
+      TempPenLine := TPenLine.Create(Properties);
       TempFigure := TempPenLine;
     end
     else
@@ -159,6 +180,13 @@ end;
 
 //Линия
 
+constructor TLineTool.Create;
+begin
+  AddProperty(TPenColorProperty.Create(GlobalPenColor));
+  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
+  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
+end;
+
 procedure TLineTool.MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
@@ -166,7 +194,9 @@ begin
   begin
     if TempFigure = nil then
     begin
-      TempLine := TLine.Create(MousePoint);
+      TempLine := TLine.Create(Properties);
+      TempLine.Point1 := MousePoint;
+      TempLine.Point2 := MousePoint;
       TempFigure := TempLine;
     end
     else
@@ -203,6 +233,15 @@ end;
 
 //Прямоугольник
 
+constructor TRectangleTool.Create;
+begin
+  AddProperty(TPenColorProperty.Create(GlobalPenColor));
+  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
+  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
+  AddProperty(TBrushColorProperty.Create(GlobalBrushColor));
+  AddProperty(TBrushStyleProperty.Create(GlobalBrushStyle));
+end;
+
 procedure TRectangleTool.MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
@@ -210,7 +249,9 @@ begin
   begin
     if TempFigure = nil then
     begin
-      TempRectangle := TRectangle.Create(MousePoint);
+      TempRectangle := TRectangle.Create(Properties);
+      TempRectangle.Point1 := MousePoint;
+      TempRectangle.Point2 := MousePoint;
       TempFigure := TempRectangle;
     end
     else
@@ -247,6 +288,15 @@ end;
 
 //Эллипс
 
+constructor TEllipseTool.Create;
+begin
+  AddProperty(TPenColorProperty.Create(GlobalPenColor));
+  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
+  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
+  AddProperty(TBrushColorProperty.Create(GlobalBrushColor));
+  AddProperty(TBrushStyleProperty.Create(GlobalBrushStyle));
+end;
+
 procedure TEllipseTool.MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
@@ -254,7 +304,9 @@ begin
   begin
     if TempFigure = nil then
     begin
-      TempEllipse := TEllipse.Create(MousePoint);
+      TempEllipse := TEllipse.Create(Properties);
+      TempEllipse.Point1 := MousePoint;
+      TempEllipse.Point2 := MousePoint;
       TempFigure := TempEllipse;
     end
     else
@@ -291,6 +343,13 @@ end;
 
 //Ломаная
 
+constructor TPolyLineTool.Create;
+begin
+  AddProperty(TPenColorProperty.Create(GlobalPenColor));
+  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
+  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
+end;
+
 procedure TPolyLineTool.MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
@@ -298,7 +357,7 @@ begin
   begin
     if TempFigure = nil then
     begin
-      TempPolyLine := TPolyLine.Create;
+      TempPolyLine := TPolyLine.Create(Properties);
       TempPolyLine.AddPoint(MousePoint);
       TempPolyLine.AddPoint(MousePoint);
     end
@@ -335,6 +394,15 @@ end;
 
 //Многоугольник
 
+constructor TPolyGonTool.Create;
+begin
+  AddProperty(TPenColorProperty.Create(GlobalPenColor));
+  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
+  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
+  AddProperty(TBrushColorProperty.Create(GlobalBrushColor));
+  AddProperty(TBrushStyleProperty.Create(GlobalBrushStyle));
+end;
+
 procedure TPolygonTool.MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
@@ -342,7 +410,7 @@ begin
   begin
     if TempFigure = nil then
     begin
-      TempPolygon := TPolygon.Create;
+      TempPolygon := TPolygon.Create(Properties);
       TempFigure := TempPolygon;
       TempPolygon.AddPoint(MousePoint);
       TempPolygon.AddPoint(MousePoint);
@@ -377,6 +445,15 @@ end;
 
 //Правильный многоугольник
 
+constructor TRegularPolygonTool.Create;
+begin
+  AddProperty(TPenColorProperty.Create(GlobalPenColor));
+  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
+  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
+  AddProperty(TBrushColorProperty.Create(GlobalBrushColor));
+  AddProperty(TBrushStyleProperty.Create(GlobalBrushStyle));
+end;
+
 procedure TRegularPolygonTool.MouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; MousePoint: TDoublePoint);
 begin
@@ -384,7 +461,7 @@ begin
   begin
     if TempFigure = nil then
     begin
-      TempRegularPolygon := TRegularPolygon.Create(MousePoint);
+      TempRegularPolygon := TRegularPolygon.Create(Properties);
       TempFigure := TempRegularPolygon;
     end
     else

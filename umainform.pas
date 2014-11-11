@@ -52,7 +52,7 @@ type
     procedure MouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
     procedure Paint(Sender: TObject);
     procedure InstrumentButtonClick(Sender: TObject);
-    procedure CreateControls;
+    procedure CreateToolControls;
     procedure CreateInstrumentButton(tool: TTool);
     procedure SetPenColor(col: Tcolor);
     procedure SetBrushColor(col: Tcolor);
@@ -62,6 +62,7 @@ type
     procedure UpdateScrollBars;
     procedure UpdateGlobalRectangle;
     procedure InitUi;
+    //procedure CreatePropertyControls;
   end;
 
 const
@@ -153,7 +154,7 @@ begin
   ButtonCols := InstrumentPanel.Width div ButtonSize;
   GlobalUpdateScrollBars := @UpdateScrollBars;
   UpdateFieldBoundingBox := @UpdateGlobalRectangle;
-  CreateControls;
+  CreateToolControls;
   SelectedTool := 0;
   GlobalPenColor := clBlack;
   GlobalBrushColor := clWhite;
@@ -194,6 +195,7 @@ end;
 procedure TMainForm.InstrumentButtonClick(Sender: TObject);
 begin
   SelectedTool := (Sender as TSpeedButton).Tag;
+  InitUi;
 end;
 
 procedure TMainForm.PalletDrawCell(Sender: TObject; aCol, aRow: integer;
@@ -442,7 +444,7 @@ begin
   end;
 end;
 
-procedure TMainForm.CreateControls;
+procedure TMainForm.CreateToolControls;
 var
   i: integer;
 begin
@@ -451,6 +453,17 @@ begin
 end;
 
 procedure TMainForm.InitUi;
+var
+  i: integer;
+begin
+  //with ToolArray[SelectedTool] do
+  //  for i := Low(Properties) to High(Properties) do
+  //  begin
+  //    Properties[i];
+  //  end;
+end;
+
+procedure CreatePropertyControls;
 begin
 
 end;
