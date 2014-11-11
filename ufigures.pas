@@ -12,6 +12,7 @@ type
 
   TFigure = class
   public
+    PenColor: TColor;
     Properties: array of TProperty;
     procedure Draw(Canv: TCanvas); virtual; abstract;
     procedure AddProperty(prop: TProperty);
@@ -28,6 +29,8 @@ type
 
   TTwoPointFigureFilled = class(TTwoPointFigure)
   public
+    BrushColor: TColor;
+    constructor Create(props: PropertyArray);
   end;
 
   PointArray = array of TDoublePoint;
@@ -42,6 +45,8 @@ type
 
   TArrayPointFigureFilled = class(TArrayPointFigure)
   public
+    BrushColor: TColor;
+    constructor Create(props: PropertyArray);
   end;
 
   TPenLine = class(TArrayPointFigure)
@@ -92,6 +97,19 @@ implementation
 constructor TFigure.Create(props: PropertyArray);
 begin
   Properties := props;
+  PenColor := GlobalPenColor;
+end;
+
+constructor TTwoPointFigureFilled.Create(props: PropertyArray);
+begin
+  inherited Create(props);
+  BrushColor := GlobalBrushColor;
+end;
+
+constructor TArrayPointFigureFilled.Create(props: PropertyArray);
+begin
+  inherited Create(props);
+  BrushColor := GlobalBrushColor;
 end;
 
 function TTwoPointFigure.BoundingBox(): TDoubleRect;
@@ -156,6 +174,7 @@ procedure TPenLine.Draw(Canv: TCanvas);
 var
   i: integer;
 begin
+  Canv.Pen.Color := PenColor;
   SetProperties(canv);
   Canv.Polyline(W2SArray(Points));
 end;
@@ -164,6 +183,7 @@ end;
 
 procedure TLine.Draw(Canv: TCanvas);
 begin
+  Canv.Pen.Color := PenColor;
   SetProperties(canv);
   Canv.Line(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
     W2SY(Point2.Y));
@@ -173,6 +193,8 @@ end;
 
 procedure TRectangle.Draw(Canv: TCanvas);
 begin
+  Canv.Pen.Color := PenColor;
+  Canv.Brush.Color := BrushColor;
   SetProperties(canv);
   Canv.Rectangle(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
     W2SY(Point2.Y));
@@ -182,6 +204,8 @@ end;
 
 procedure TEllipse.Draw(Canv: TCanvas);
 begin
+  Canv.Pen.Color := PenColor;
+  Canv.Brush.Color := BrushColor;
   SetProperties(canv);
   Canv.Ellipse(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
     W2SY(Point2.Y));
@@ -191,6 +215,7 @@ end;
 
 procedure TPolyLine.Draw(Canv: TCanvas);
 begin
+  Canv.Pen.Color := PenColor;
   SetProperties(canv);
   Canv.Polyline(W2SArray(Points));
 end;
@@ -199,6 +224,8 @@ end;
 
 procedure TPolygon.Draw(Canv: TCanvas);
 begin
+  Canv.Pen.Color := PenColor;
+  Canv.Brush.Color := BrushColor;
   SetProperties(canv);
   Canv.Polygon(W2SArray(Points));
 end;
@@ -207,6 +234,8 @@ end;
 
 procedure TRegularPolygon.Draw(Canv: TCanvas);
 begin
+  Canv.Pen.Color := PenColor;
+  Canv.Brush.Color := BrushColor;
   SetProperties(canv);
   Canv.Polygon(W2SArray(Points));
 end;

@@ -93,7 +93,6 @@ begin
       TempZoomRectangle := TRectangle.Create(Properties);
       with TempZoomRectangle do
       begin
-        AddProperty(TPenColorProperty.Create(clBlack));
         AddProperty(TPenWidthProperty.Create(1));
         AddProperty(TPenStyleProperty.Create(psDash));
         AddProperty(TBrushStyleProperty.Create(bsClear));

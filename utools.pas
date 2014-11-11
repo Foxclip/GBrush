@@ -133,9 +133,8 @@ end;
 
 constructor TPenTool.Create;
 begin
-  AddProperty(TPenColorProperty.Create(GlobalPenColor));
-  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
-  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
+  AddProperty(TPenStyleProperty.Create(psSolid));
+  AddProperty(TPenWidthProperty.Create(1));
 end;
 
 procedure TPenTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -182,9 +181,8 @@ end;
 
 constructor TLineTool.Create;
 begin
-  AddProperty(TPenColorProperty.Create(GlobalPenColor));
-  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
-  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
+  AddProperty(TPenStyleProperty.Create(psSolid));
+  AddProperty(TPenWidthProperty.Create(1));
 end;
 
 procedure TLineTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -235,11 +233,9 @@ end;
 
 constructor TRectangleTool.Create;
 begin
-  AddProperty(TPenColorProperty.Create(GlobalPenColor));
-  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
-  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
-  AddProperty(TBrushColorProperty.Create(GlobalBrushColor));
-  AddProperty(TBrushStyleProperty.Create(GlobalBrushStyle));
+  AddProperty(TPenStyleProperty.Create(psSolid));
+  AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TBrushStyleProperty.Create(bsClear));
 end;
 
 procedure TRectangleTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -290,11 +286,9 @@ end;
 
 constructor TEllipseTool.Create;
 begin
-  AddProperty(TPenColorProperty.Create(GlobalPenColor));
-  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
-  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
-  AddProperty(TBrushColorProperty.Create(GlobalBrushColor));
-  AddProperty(TBrushStyleProperty.Create(GlobalBrushStyle));
+  AddProperty(TPenStyleProperty.Create(psSolid));
+  AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TBrushStyleProperty.Create(bsClear));
 end;
 
 procedure TEllipseTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -345,9 +339,8 @@ end;
 
 constructor TPolyLineTool.Create;
 begin
-  AddProperty(TPenColorProperty.Create(GlobalPenColor));
-  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
-  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
+  AddProperty(TPenStyleProperty.Create(psSolid));
+  AddProperty(TPenWidthProperty.Create(1));
 end;
 
 procedure TPolyLineTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -396,11 +389,9 @@ end;
 
 constructor TPolyGonTool.Create;
 begin
-  AddProperty(TPenColorProperty.Create(GlobalPenColor));
-  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
-  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
-  AddProperty(TBrushColorProperty.Create(GlobalBrushColor));
-  AddProperty(TBrushStyleProperty.Create(GlobalBrushStyle));
+  AddProperty(TPenStyleProperty.Create(psSolid));
+  AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TBrushStyleProperty.Create(bsClear));
 end;
 
 procedure TPolygonTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -447,11 +438,9 @@ end;
 
 constructor TRegularPolygonTool.Create;
 begin
-  AddProperty(TPenColorProperty.Create(GlobalPenColor));
-  AddProperty(TPenStyleProperty.Create(GlobalPenStyle));
-  AddProperty(TPenWidthProperty.Create(GlobalPenSize));
-  AddProperty(TBrushColorProperty.Create(GlobalBrushColor));
-  AddProperty(TBrushStyleProperty.Create(GlobalBrushStyle));
+  AddProperty(TPenStyleProperty.Create(psSolid));
+  AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TBrushStyleProperty.Create(bsClear));
 end;
 
 procedure TRegularPolygonTool.MouseDown(Sender: TObject;

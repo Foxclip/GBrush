@@ -57,8 +57,6 @@ type
     procedure SetPenColor(col: Tcolor);
     procedure SetBrushColor(col: Tcolor);
     procedure UpdateColors;
-    procedure SetPenStyle(style: TPenStyle);
-    procedure SetBrushStyle(style: TBrushStyle);
     procedure UpdateScrollBars;
     procedure UpdateGlobalRectangle;
     procedure InitUi;
@@ -158,9 +156,6 @@ begin
   SelectedTool := 0;
   GlobalPenColor := clBlack;
   GlobalBrushColor := clWhite;
-  GlobalBrushStyle := bsClear;
-  GlobalPenSize := 1;
-  GlobalAngleNum := 6;
   GlobalWidth := MainPaintBox.Width;
   GlobalHeight := MainPaintBox.Height;
   SetScale(1);
@@ -387,6 +382,7 @@ begin
     FieldBoundingBox.y2 := FigureArray[0].BoundingBox().y2;
     for i := Low(FigureArray) to High(FigureArray) do
     begin
+      { TODO : Заменить на min и max }
       if FigureArray[i].BoundingBox.x1 < FieldBoundingBox.x1 then
         FieldBoundingBox.x1 := FigureArray[i].BoundingBox.x1;
       if FigureArray[i].BoundingBox.x2 > FieldBoundingBox.x2 then
@@ -408,16 +404,6 @@ end;
 procedure TMainForm.SetBrushColor(col: Tcolor);
 begin
   GlobalBrushColor := col;
-end;
-
-procedure TMainForm.SetPenStyle(style: TPenStyle);
-begin
-  GlobalPenStyle := style;
-end;
-
-procedure TMainForm.SetBrushStyle(style: TBrushStyle);
-begin
-  GlobalBrushStyle := style;
 end;
 
 procedure TMainForm.Paint(Sender: TObject);
@@ -459,7 +445,7 @@ begin
   //with ToolArray[SelectedTool] do
   //  for i := Low(Properties) to High(Properties) do
   //  begin
-  //    Properties[i];
+  //    Properties[i].;
   //  end;
 end;
 
