@@ -91,6 +91,8 @@ begin
     if TempFigure = nil then
     begin
       TempZoomRectangle := TRectangle.Create(Properties);
+      TempZoomRectangle.Point1 := MousePoint;
+      TempZoomRectangle.Point2 := MousePoint;
       with TempZoomRectangle do
       begin
         AddProperty(TPenWidthProperty.Create(1));

@@ -17,7 +17,8 @@ type
     ColorDialog1: TColorDialog;
     CornerPanel: TPanel;
     PropertyPanel: TPanel;
-    SpeedButton1: TSpeedButton;
+    FullExtendButton: TSpeedButton;
+    ClearButton: TSpeedButton;
     ToolPanel: TPanel;
     ScrollBarSide: TScrollBar;
     ScrollBarBottom: TScrollBar;
@@ -27,6 +28,7 @@ type
     MainPaintBox: TPaintBox;
     InstrumentPanel: TPanel;
     ColorChangeButton: TSpeedButton;
+    procedure ClearButtonClick(Sender: TObject);
     procedure ColorChangeButtonClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure ScrollBarScroll(Sender: TObject; ScrollCode: TScrollCode;
@@ -208,6 +210,19 @@ begin
   SetPenColor(GlobalBrushColor);
   SetBrushColor(temp);
   UpdateColors;
+end;
+
+procedure TMainForm.ClearButtonClick(Sender: TObject);
+var
+  i: integer;
+begin
+  for i := Low(FigureArray) to High(FigureArray) do
+    FigureArray[i].Free;
+  SetLength(FigureArray, 0);
+  TempFigure := nil;
+  TempFigure.Free;
+  UpdateGlobalRectangle;
+  MainPaintBox.Invalidate;
 end;
 
 procedure TMainForm.FormResize(Sender: TObject);

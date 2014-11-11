@@ -217,7 +217,7 @@ object MainForm: TMainForm
     ClientHeight = 40
     ClientWidth = 914
     TabOrder = 5
-    object SpeedButton1: TSpeedButton
+    object FullExtendButton: TSpeedButton
       Left = 5
       Height = 30
       Top = 5
@@ -309,6 +309,18 @@ object MainForm: TMainForm
       }
       NumGlyphs = 0
       OnClick = OrigialSizeClick
+    end
+    object ClearButton: TSpeedButton
+      AnchorSideLeft.Control = FullExtendButton
+      AnchorSideLeft.Side = asrBottom
+      Left = 45
+      Height = 30
+      Top = 5
+      Width = 30
+      Anchors = [akLeft]
+      BorderSpacing.Left = 10
+      NumGlyphs = 0
+      OnClick = ClearButtonClick
     end
   end
   object ColorDialog1: TColorDialog
