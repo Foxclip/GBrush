@@ -13,7 +13,7 @@ type
   PointerToMethodLongInt = procedure(x: integer) of object;
 
   TProperty = class
-    procedure PullProperty(canv: TCanvas); virtual; abstract;
+    procedure PushProperty(canv: TCanvas); virtual; abstract;
     procedure CreateEdit(panel: TPanel; index: integer); virtual; abstract;
     procedure PropertyChange(Sender: TObject); virtual; abstract;
     function CreateCopy(): TProperty; virtual; abstract;
@@ -23,7 +23,7 @@ type
 
   TPenStyleProperty = class(TProperty)
     PenStyle: TPenStyle;
-    procedure PullProperty(canv: TCanvas); override;
+    procedure PushProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
     procedure PropertyChange(Sender: TObject); override;
     function CreateCopy(): TProperty; override;
@@ -32,7 +32,7 @@ type
 
   TPenWidthProperty = class(TProperty)
     PenWidth: integer;
-    procedure PullProperty(canv: TCanvas); override;
+    procedure PushProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
     procedure PropertyChange(Sender: TObject); override;
     function CreateCopy(): TProperty; override;
@@ -41,7 +41,7 @@ type
 
   TBrushStyleProperty = class(TProperty)
     BrushStyle: TBrushStyle;
-    procedure PullProperty(canv: TCanvas); override;
+    procedure PushProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
     procedure PropertyChange(Sender: TObject); override;
     function CreateCopy(): TProperty; override;
@@ -51,7 +51,7 @@ type
   TVerticesNumProperty = class(TProperty)
     Vertices: integer;
     BuildMethod: PointerToMethodLongInt;
-    procedure PullProperty(canv: TCanvas); override;
+    procedure PushProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
     procedure PropertyChange(Sender: TObject); override;
     function CreateCopy(): TProperty; override;
@@ -85,7 +85,7 @@ begin
   BuildMethod := build;
 end;
 
-procedure TPenStyleProperty.PullProperty(canv: TCanvas);
+procedure TPenStyleProperty.PushProperty(canv: TCanvas);
 begin
   canv.Pen.Style := PenStyle;
 end;
@@ -128,7 +128,7 @@ begin
   Result := TPenStyleProperty.Create(PenStyle);
 end;
 
-procedure TPenWidthProperty.PullProperty(canv: TCanvas);
+procedure TPenWidthProperty.PushProperty(canv: TCanvas);
 begin
   canv.Pen.Width := PenWidth;
 end;
@@ -160,7 +160,7 @@ begin
   Result := TPenWidthProperty.Create(PenWidth);
 end;
 
-procedure TBrushStyleProperty.PullProperty(canv: TCanvas);
+procedure TBrushStyleProperty.PushProperty(canv: TCanvas);
 begin
   canv.Brush.Style := BrushStyle;
 end;
@@ -199,7 +199,7 @@ begin
   Result := TBrushStyleProperty.Create(BrushStyle);
 end;
 
-procedure TVerticesNumProperty.PullProperty(canv: TCanvas);
+procedure TVerticesNumProperty.PushProperty(canv: TCanvas);
 begin
   BuildMethod(Vertices);
 end;
