@@ -61,8 +61,8 @@ type
     procedure UpdateColors;
     procedure UpdateScrollBars;
     procedure UpdateGlobalRectangle;
-    procedure InitUi;
-    //procedure CreatePropertyControls;
+    procedure InitPropertiesEdit;
+    //procedure PropertyChange;
   end;
 
 const
@@ -167,6 +167,7 @@ begin
   PalletColors[1, 0] := TColor($00FF00);
   PalletColors[2, 0] := clBlue;
   UpdateColors;
+  InitPropertiesEdit;
 end;
 
 procedure TMainForm.FirstColorImageMouseDown(Sender: TObject;
@@ -192,7 +193,7 @@ end;
 procedure TMainForm.InstrumentButtonClick(Sender: TObject);
 begin
   SelectedTool := (Sender as TSpeedButton).Tag;
-  InitUi;
+  InitPropertiesEdit;
 end;
 
 procedure TMainForm.PalletDrawCell(Sender: TObject; aCol, aRow: integer;
@@ -442,6 +443,7 @@ begin
     TextOut(0, 0, 'Масштаб: ' + FormatFloat('0.000', GetScale) +
       '; Э x: ' + FormatFloat('0.000', Offset.x) + '; Э y: ' +
       FormatFloat('0.000', Offset.y));
+    TextOut(0, 20, BoolToStr(TempFigure = nil));
   end;
 end;
 
@@ -453,18 +455,20 @@ begin
     CreateInstrumentButton(ToolArray[i]);
 end;
 
-procedure TMainForm.InitUi;
+procedure TMainForm.InitPropertiesEdit;
 var
   i: integer;
 begin
-  //with ToolArray[SelectedTool] do
-  //  for i := Low(Properties) to High(Properties) do
-  //  begin
-  //    Properties[i].;
-  //  end;
+  while PropertyPanel.ControlCount > 0 do
+    PropertyPanel.Controls[0].Free;
+  with ToolArray[SelectedTool] do
+    for i := Low(Properties) to High(Properties) do
+    begin
+      Properties[i].CreateEdit(PropertyPanel, PropertyPanel.ControlCount);
+    end;
 end;
 
-procedure CreatePropertyControls;
+procedure PropertyChange(Sender: TObject);
 begin
 
 end;

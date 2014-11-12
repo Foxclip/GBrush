@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, Dialogs, Buttons, UFigures,
-  ExtCtrls, UScale, UProperties, UGlobalPointers;
+  ExtCtrls, UScale, UProperties, UGlobalPointers, Math;
 
 type
 
@@ -110,6 +110,7 @@ type
       MousePoint: TDoublePoint); override;
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
+    procedure BuildRegularPolygon(Vertices: integer);
     function GetGlyphString: string; override;
     constructor Create;
   end;
@@ -133,8 +134,8 @@ end;
 
 constructor TPenTool.Create;
 begin
-  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TPenStyleProperty.Create(psSolid));
 end;
 
 procedure TPenTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -181,8 +182,8 @@ end;
 
 constructor TLineTool.Create;
 begin
-  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TPenStyleProperty.Create(psSolid));
 end;
 
 procedure TLineTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -233,8 +234,8 @@ end;
 
 constructor TRectangleTool.Create;
 begin
-  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TBrushStyleProperty.Create(bsClear));
 end;
 
@@ -286,8 +287,8 @@ end;
 
 constructor TEllipseTool.Create;
 begin
-  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TBrushStyleProperty.Create(bsClear));
 end;
 
@@ -339,8 +340,8 @@ end;
 
 constructor TPolyLineTool.Create;
 begin
-  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TPenStyleProperty.Create(psSolid));
 end;
 
 procedure TPolyLineTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -389,8 +390,8 @@ end;
 
 constructor TPolyGonTool.Create;
 begin
-  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TBrushStyleProperty.Create(bsClear));
 end;
 
@@ -438,9 +439,10 @@ end;
 
 constructor TRegularPolygonTool.Create;
 begin
-  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TBrushStyleProperty.Create(bsClear));
+  AddProperty(TVerticesNumProperty.Create(6, @BuildRegularPolygon));
 end;
 
 procedure TRegularPolygonTool.MouseDown(Sender: TObject;
@@ -451,6 +453,8 @@ begin
     if TempFigure = nil then
     begin
       TempRegularPolygon := TRegularPolygon.Create(Properties);
+      TempRegularPolygon.Center := MousePoint;
+      Properties[3].PullProperty(nil);
       TempFigure := TempRegularPolygon;
     end
     else
@@ -465,7 +469,7 @@ procedure TRegularPolygonTool.MouseMove(Sender: TObject;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
   if GlobalIsMouseDownLeft and (TempFigure <> nil) then
-    TempRegularPolygon.BuildRegularPolygon(MousePoint);
+    Properties[3].PullProperty(nil);
 end;
 
 procedure TRegularPolygonTool.MouseUp(Sender: TObject;
@@ -475,6 +479,25 @@ begin
   begin
     AddFigure(TempRegularPolygon);
     TempFigure := nil;
+  end;
+end;
+
+procedure TRegularPolygonTool.BuildRegularPolygon(Vertices: integer);
+var
+  i: integer;
+  Rad: double;
+  Point: TDoublePoint;
+begin
+  Rad := sqrt(power(TempRegularPolygon.Center.X - S2WX(GlobalMousePoint.X),
+    2) + power(TempRegularPolygon.Center.Y - S2WY(GlobalMousePoint.Y), 2));
+  setLength(TempRegularPolygon.Points, 0);
+  for i := 0 to Vertices do
+  begin
+    Point.x := TempRegularPolygon.Center.X + Rad * cos(
+      ((2 * pi * i) / Vertices));
+    Point.y := TempRegularPolygon.Center.Y + Rad * sin(
+      ((2 * pi * i) / Vertices));
+    TempRegularPolygon.AddPoint(Point);
   end;
 end;
 

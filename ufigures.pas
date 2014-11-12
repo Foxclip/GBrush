@@ -81,10 +81,8 @@ type
 
   TRegularPolygon = class(TArrayPointFigureFilled)
   public
-    Vertices: integer;
     Center: TDoublePoint;
     procedure Draw(Canv: TCanvas); override;
-    procedure BuildRegularPolygon(MousePoint: TDoublePoint);
   end;
 
 var
@@ -135,7 +133,7 @@ var
 begin
   for i := Low(Properties) to High(Properties) do
   begin
-    Properties[i].SetProperty(canv);
+    Properties[i].PullProperty(canv);
   end;
 end;
 
@@ -238,23 +236,6 @@ begin
   Canv.Brush.Color := BrushColor;
   SetProperties(canv);
   Canv.Polygon(W2SArray(Points));
-end;
-
-procedure TRegularPolygon.BuildRegularPolygon(MousePoint: TDoublePoint);
-var
-  i: integer;
-  Rad: double;
-  Point: TDoublePoint;
-begin
-  Rad := sqrt(power(Center.X - S2WX(GlobalMousePoint.X), 2) +
-    power(Center.Y - S2WY(GlobalMousePoint.Y), 2));
-  setLength(Points, 0);
-  for i := 0 to Vertices do
-  begin
-    Point.x := Center.X + Rad * cos(((2 * pi * i) / Vertices));
-    Point.y := Center.Y + Rad * sin(((2 * pi * i) / Vertices));
-    AddPoint(Point);
-  end;
 end;
 
 procedure AddFigure(Fig: TFigure);
