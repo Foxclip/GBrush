@@ -443,7 +443,6 @@ begin
     TextOut(0, 0, 'Масштаб: ' + FormatFloat('0.000', GetScale) +
       '; Э x: ' + FormatFloat('0.000', Offset.x) + '; Э y: ' +
       FormatFloat('0.000', Offset.y));
-    TextOut(0, 20, BoolToStr(TempFigure = nil));
   end;
 end;
 

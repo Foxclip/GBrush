@@ -16,6 +16,7 @@ type
     procedure PullProperty(canv: TCanvas); virtual; abstract;
     procedure CreateEdit(panel: TPanel; index: integer); virtual; abstract;
     procedure PropertyChange(Sender: TObject); virtual; abstract;
+    function CreateCopy(): TProperty; virtual; abstract;
   end;
 
   PropertyArray = array of TProperty;
@@ -25,6 +26,7 @@ type
     procedure PullProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
     procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
     constructor Create(ps: TPenStyle);
   end;
 
@@ -33,6 +35,7 @@ type
     procedure PullProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
     procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
     constructor Create(w: integer);
   end;
 
@@ -41,6 +44,7 @@ type
     procedure PullProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
     procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
     constructor Create(bs: TBrushStyle);
   end;
 
@@ -50,6 +54,7 @@ type
     procedure PullProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
     procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
     constructor Create(vert: integer; build: PointerToMethodLongInt);
   end;
 
@@ -117,6 +122,11 @@ begin
   end;
 end;
 
+function TPenStyleProperty.CreateCopy(): TProperty;
+begin
+  Result := TPenStyleProperty.Create(PenStyle);
+end;
+
 procedure TPenWidthProperty.PullProperty(canv: TCanvas);
 begin
   canv.Pen.Width := PenWidth;
@@ -143,6 +153,11 @@ begin
   PenWidth := (Sender as TSpinEdit).Value;
 end;
 
+function TPenWidthProperty.CreateCopy(): TProperty;
+begin
+  Result := TPenWidthProperty.Create(PenWidth);
+end;
+
 procedure TBrushStyleProperty.PullProperty(canv: TCanvas);
 begin
   canv.Brush.Style := BrushStyle;
@@ -155,12 +170,13 @@ begin
   Edit := TComboBox.Create(panel);
   with Edit do
   begin
+    OnChange := @PropertyChange;
     Parent := panel;
     Items.Add('bsSolid');
     Items.Add('bsClear');
     Items.Add('bsHorizontal');
     Items.Add('bsVertical');
-    ItemIndex := 0;
+    ItemIndex := 1;
     SetBounds(5, index * ItmHeight, Width, Height);
   end;
 end;
@@ -175,6 +191,11 @@ begin
   end;
 end;
 
+function TBrushStyleProperty.CreateCopy(): TProperty;
+begin
+  Result := TBrushStyleProperty.Create(BrushStyle);
+end;
+
 procedure TVerticesNumProperty.PullProperty(canv: TCanvas);
 begin
   BuildMethod(Vertices);
@@ -187,6 +208,7 @@ begin
   Edit := TSpinEdit.Create(panel);
   with Edit do
   begin
+    OnChange := @PropertyChange;
     Parent := panel;
     MinValue := 1;
     MaxValue := 100;
@@ -195,9 +217,14 @@ begin
   end;
 end;
 
+function TVerticesNumProperty.CreateCopy(): TProperty;
+begin
+  Result := TVerticesNumProperty.Create(Vertices, BuildMethod);
+end;
+
 procedure TVerticesNumProperty.PropertyChange(Sender: TObject);
 begin
-
+  Vertices := (Sender as TSpinEdit).Value;
 end;
 
 end.
