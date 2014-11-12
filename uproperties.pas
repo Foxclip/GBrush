@@ -5,7 +5,8 @@ unit UProperties;
 interface
 
 uses
-  Classes, ExtCtrls, StdCtrls, Spin, SysUtils, Graphics, UGlobalPointers;
+  Classes, ExtCtrls, Dialogs, StdCtrls, Spin, SysUtils, Graphics,
+  UGlobalPointers;
 
 type
 
@@ -14,6 +15,7 @@ type
   TProperty = class
     procedure PullProperty(canv: TCanvas); virtual; abstract;
     procedure CreateEdit(panel: TPanel; index: integer); virtual; abstract;
+    procedure PropertyChange(Sender: TObject); virtual; abstract;
   end;
 
   PropertyArray = array of TProperty;
@@ -22,6 +24,7 @@ type
     PenStyle: TPenStyle;
     procedure PullProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
     constructor Create(ps: TPenStyle);
   end;
 
@@ -29,6 +32,7 @@ type
     PenWidth: integer;
     procedure PullProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
     constructor Create(w: integer);
   end;
 
@@ -36,6 +40,7 @@ type
     BrushStyle: TBrushStyle;
     procedure PullProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
     constructor Create(bs: TBrushStyle);
   end;
 
@@ -44,6 +49,7 @@ type
     BuildMethod: PointerToMethodLongInt;
     procedure PullProperty(canv: TCanvas); override;
     procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
     constructor Create(vert: integer; build: PointerToMethodLongInt);
   end;
 
@@ -86,6 +92,7 @@ begin
   Edit := TComboBox.Create(panel);
   with Edit do
   begin
+    OnChange := @PropertyChange;
     Parent := panel;
     Items.Add('psSolid');
     Items.Add('psClear');
@@ -95,6 +102,18 @@ begin
     Items.Add('psDashDotDot');
     ItemIndex := 0;
     SetBounds(5, index * ItmHeight, Width, Height);
+  end;
+end;
+
+procedure TPenStyleProperty.PropertyChange(Sender: TObject);
+begin
+  case (Sender as TComboBox).ItemIndex of
+    0: PenStyle := psSolid;
+    1: PenStyle := psClear;
+    2: PenStyle := psDash;
+    3: PenStyle := psDot;
+    4: PenStyle := psDashDot;
+    5: PenStyle := psDashDotDot;
   end;
 end;
 
@@ -110,12 +129,18 @@ begin
   Edit := TSpinEdit.Create(panel);
   with Edit do
   begin
+    OnChange := @PropertyChange;
     Parent := panel;
     MinValue := 1;
     MaxValue := 100;
     Value := PenWidth;
     SetBounds(5, index * ItmHeight, Width, Height);
   end;
+end;
+
+procedure TPenWidthProperty.PropertyChange(Sender: TObject);
+begin
+  PenWidth := (Sender as TSpinEdit).Value;
 end;
 
 procedure TBrushStyleProperty.PullProperty(canv: TCanvas);
@@ -140,6 +165,16 @@ begin
   end;
 end;
 
+procedure TBrushStyleProperty.PropertyChange(Sender: TObject);
+begin
+  case (Sender as TComboBox).ItemIndex of
+    0: BrushStyle := bsSolid;
+    1: BrushStyle := bsClear;
+    2: BrushStyle := bsHorizontal;
+    3: BrushStyle := bsVertical;
+  end;
+end;
+
 procedure TVerticesNumProperty.PullProperty(canv: TCanvas);
 begin
   BuildMethod(Vertices);
@@ -158,6 +193,11 @@ begin
     Value := Vertices;
     SetBounds(5, index * ItmHeight, Width, Height);
   end;
+end;
+
+procedure TVerticesNumProperty.PropertyChange(Sender: TObject);
+begin
+
 end;
 
 end.

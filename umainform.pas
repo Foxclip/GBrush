@@ -468,11 +468,6 @@ begin
     end;
 end;
 
-procedure PropertyChange(Sender: TObject);
-begin
-
-end;
-
 procedure TMainForm.CreateInstrumentButton(tool: TTool);
 var
   NewButton: TSpeedButton;

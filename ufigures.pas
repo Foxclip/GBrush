@@ -93,8 +93,15 @@ procedure AddFigure(Fig: TFigure);
 implementation
 
 constructor TFigure.Create(props: PropertyArray);
+var
+  i: integer;
 begin
-  Properties := props;
+  SetLength(Properties, Length(props));
+  for i := Low(Properties) to High(Properties) do
+  begin
+    Properties[i] := props[i];
+    //Properties[i] := TPenWidthProperty.Create(Length(FigureArray) mod 3);
+  end;
   PenColor := GlobalPenColor;
 end;
 
@@ -175,6 +182,13 @@ begin
   Canv.Pen.Color := PenColor;
   SetProperties(canv);
   Canv.Polyline(W2SArray(Points));
+  if Length(Points) > 0 then
+  begin
+    Canv.TextOut(
+      W2SX(Points[0].x),
+      W2SY(Points[0].y),
+      IntToStr((Properties[0] as TPenWidthProperty).PenWidth));
+  end;
 end;
 
 //Линия
