@@ -143,17 +143,26 @@ procedure TPenTool.MouseDown(Sender: TObject; Button: TMouseButton;
 begin
   if Button = mbLeft then
   begin
+<<<<<<< Updated upstream
+    if TempFigure = nil then
+=======
     if TempFigure <> nil then
       AddFigure(TempFigure);
     if TempPenLine = nil then
+>>>>>>> Stashed changes
     begin
       TempPenLine := TPenLine.Create(Properties);
       TempFigure := TempPenLine;
     end
     else
     begin
+<<<<<<< Updated upstream
+      AddFigure(TempPenLine);
+      TempFigure := nil;
+=======
       TempFigure := TempPenLine;
       TempPenLine := nil;
+>>>>>>> Stashed changes
     end;
   end;
 end;
@@ -161,17 +170,22 @@ end;
 procedure TPenTool.MouseMove(Sender: TObject; Shift: TShiftState;
   MousePoint: TDoublePoint);
 begin
-  if GlobalIsMouseDownLeft and (TempPenLine <> nil) then
+  if GlobalIsMouseDownLeft and (TempFigure <> nil) then
     TempPenLine.AddPoint(MousePoint);
 end;
 
 procedure TPenTool.MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
-  if TempPenLine <> nil then
+  if TempFigure <> nil then
   begin
+<<<<<<< Updated upstream
+    AddFigure(TempPenLine);
+    TempFigure := nil;
+=======
     TempFigure := TempPenLine;
     TempPenLine := nil;
+>>>>>>> Stashed changes
   end;
 end;
 
@@ -193,9 +207,13 @@ procedure TLineTool.MouseDown(Sender: TObject; Button: TMouseButton;
 begin
   if Button = mbLeft then
   begin
+<<<<<<< Updated upstream
+    if TempFigure = nil then
+=======
     if TempFigure <> nil then
       AddFigure(TempFigure);
     if TempLine = nil then
+>>>>>>> Stashed changes
     begin
       TempLine := TLine.Create(Properties);
       TempLine.Point1 := MousePoint;
@@ -204,8 +222,13 @@ begin
     end
     else
     begin
+<<<<<<< Updated upstream
+      AddFigure(TempLine);
+      TempFigure := nil;
+=======
       TempFigure := TempLine;
       TempLine := nil;
+>>>>>>> Stashed changes
     end;
   end;
 end;
@@ -213,7 +236,7 @@ end;
 procedure TLineTool.MouseMove(Sender: TObject; Shift: TShiftState;
   MousePoint: TDoublePoint);
 begin
-  if GlobalIsMouseDownLeft and (TempLine <> nil) then
+  if GlobalIsMouseDownLeft and (TempFigure <> nil) then
   begin
     TempLine.Point2 := MousePoint;
   end;
@@ -222,10 +245,15 @@ end;
 procedure TLineTool.MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
-  if TempLine <> nil then
+  if TempFigure <> nil then
   begin
+<<<<<<< Updated upstream
+    AddFigure(TempLine);
+    TempFigure := nil;
+=======
     TempFigure := TempLine;
     TempLine := nil;
+>>>>>>> Stashed changes
   end;
 end;
 
@@ -248,9 +276,13 @@ procedure TRectangleTool.MouseDown(Sender: TObject; Button: TMouseButton;
 begin
   if Button = mbLeft then
   begin
+<<<<<<< Updated upstream
+    if TempFigure = nil then
+=======
     if TempFigure <> nil then
       AddFigure(TempFigure);
     if TempRectangle = nil then
+>>>>>>> Stashed changes
     begin
       TempRectangle := TRectangle.Create(Properties);
       TempRectangle.Point1 := MousePoint;
@@ -259,8 +291,13 @@ begin
     end
     else
     begin
+<<<<<<< Updated upstream
+      AddFigure(TempRectangle);
+      TempFigure := nil;
+=======
       TempFigure := TempRectangle;
       TempRectangle := nil;
+>>>>>>> Stashed changes
     end;
   end;
 end;
@@ -268,7 +305,7 @@ end;
 procedure TRectangleTool.MouseMove(Sender: TObject; Shift: TShiftState;
   MousePoint: TDoublePoint);
 begin
-  if GlobalIsMouseDownLeft and (TempRectangle <> nil) then
+  if GlobalIsMouseDownLeft and (TempFigure <> nil) then
   begin
     TempRectangle.Point2 := MousePoint;
   end;
@@ -277,10 +314,15 @@ end;
 procedure TRectangleTool.MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
-  if TempRectangle <> nil then
+  if TempFigure <> nil then
   begin
+<<<<<<< Updated upstream
+    AddFigure(TempRectangle);
+    TempFigure := nil;
+=======
     TempFigure := TempRectangle;
     TempRectangle := nil;
+>>>>>>> Stashed changes
   end;
 end;
 
@@ -303,9 +345,13 @@ procedure TEllipseTool.MouseDown(Sender: TObject; Button: TMouseButton;
 begin
   if Button = mbLeft then
   begin
+<<<<<<< Updated upstream
+    if TempFigure = nil then
+=======
     if TempFigure <> nil then
       AddFigure(TempFigure);
     if TempEllipse = nil then
+>>>>>>> Stashed changes
     begin
       TempEllipse := TEllipse.Create(Properties);
       TempEllipse.Point1 := MousePoint;
@@ -314,8 +360,13 @@ begin
     end
     else
     begin
+<<<<<<< Updated upstream
+      AddFigure(TempEllipse);
+      TempFigure := nil;
+=======
       TempFigure := TempEllipse;
       TempEllipse := nil;
+>>>>>>> Stashed changes
     end;
   end;
 end;
@@ -323,7 +374,7 @@ end;
 procedure TEllipseTool.MouseMove(Sender: TObject; Shift: TShiftState;
   MousePoint: TDoublePoint);
 begin
-  if GlobalIsMouseDownLeft and (TempEllipse <> nil) then
+  if GlobalIsMouseDownLeft and (TempFigure <> nil) then
   begin
     TempEllipse.Point2 := MousePoint;
   end;
@@ -332,10 +383,15 @@ end;
 procedure TEllipseTool.MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
-  if TempEllipse <> nil then
+  if TempFigure <> nil then
   begin
+<<<<<<< Updated upstream
+    AddFigure(TempEllipse);
+    TempFigure := nil;
+=======
     TempFigure := TempEllipse;
     TempEllipse := nil;
+>>>>>>> Stashed changes
   end;
 end;
 
@@ -357,9 +413,13 @@ procedure TPolyLineTool.MouseDown(Sender: TObject; Button: TMouseButton;
 begin
   if Button = mbLeft then
   begin
+<<<<<<< Updated upstream
+    if TempFigure = nil then
+=======
     if TempFigure <> nil then
       AddFigure(TempFigure);
     if TempPolyLine = nil then
+>>>>>>> Stashed changes
     begin
       TempPolyLine := TPolyLine.Create(Properties);
       TempPolyLine.AddPoint(MousePoint);
@@ -369,18 +429,23 @@ begin
       TempPolyLine.AddPoint(MousePoint);
     TempFigure := TempPolyLine;
   end;
-  if (Button = mbRight) and (TempPolyLine <> nil) then
+  if (Button = mbRight) and (TempFigure <> nil) then
   begin
     TempPolyLine.AddPoint(MousePoint);
+<<<<<<< Updated upstream
+    AddFigure(TempPolyLine);
+    TempFigure := nil;
+=======
     TempFigure := TempPolyLine;
     TempPolyLine := nil;
+>>>>>>> Stashed changes
   end;
 end;
 
 procedure TPolyLineTool.MouseMove(Sender: TObject; Shift: TShiftState;
   MousePoint: TDoublePoint);
 begin
-  if TempPolyLine <> nil then
+  if TempFigure <> nil then
   begin
     TempPolyLine.Points[High(TempPolyLine.Points)] := MousePoint;
   end;
@@ -410,9 +475,13 @@ procedure TPolygonTool.MouseDown(Sender: TObject; Button: TMouseButton;
 begin
   if Button = mbLeft then
   begin
+<<<<<<< Updated upstream
+    if TempFigure = nil then
+=======
     if TempFigure <> nil then
       AddFigure(TempFigure);
     if TempPolygon = nil then
+>>>>>>> Stashed changes
     begin
       TempPolygon := TPolygon.Create(Properties);
       TempFigure := TempPolygon;
@@ -422,18 +491,23 @@ begin
     else
       TempPolygon.AddPoint(MousePoint);
   end;
-  if (Button = mbRight) and (TempPolygon <> nil) then
+  if (Button = mbRight) and (TempFigure <> nil) then
   begin
     TempPolygon.AddPoint(MousePoint);
+<<<<<<< Updated upstream
+    AddFigure(TempPolygon);
+    TempFigure := nil;
+=======
     TempFigure := TempPolygon;
     TempPolygon := nil;
+>>>>>>> Stashed changes
   end;
 end;
 
 procedure TPolyGonTool.MouseMove(Sender: TObject; Shift: TShiftState;
   MousePoint: TDoublePoint);
 begin
-  if TempPolygon <> nil then
+  if TempFigure <> nil then
     TempPolygon.Points[High(TempPolygon.Points)] := MousePoint;
 end;
 
@@ -462,19 +536,28 @@ procedure TRegularPolygonTool.MouseDown(Sender: TObject;
 begin
   if Button = mbLeft then
   begin
+<<<<<<< Updated upstream
+    if TempFigure = nil then
+=======
     if TempFigure <> nil then
       AddFigure(TempFigure);
     if TempRegularPolygon = nil then
+>>>>>>> Stashed changes
     begin
       TempRegularPolygon := TRegularPolygon.Create(Properties);
       TempRegularPolygon.Center := MousePoint;
-      Properties[3].PushProperty(nil);
+      Properties[3].PullProperty(nil);
       TempFigure := TempRegularPolygon;
     end
     else
     begin
+<<<<<<< Updated upstream
+      AddFigure(TempRegularPolygon);
+      TempFigure := nil;
+=======
       TempFigure := TempRegularPolygon;
       TempRegularPolygon := nil;
+>>>>>>> Stashed changes
     end;
   end;
 end;
@@ -482,17 +565,22 @@ end;
 procedure TRegularPolygonTool.MouseMove(Sender: TObject;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
-  if GlobalIsMouseDownLeft and (TempRegularPolygon <> nil) then
-    Properties[3].PushProperty(nil);
+  if GlobalIsMouseDownLeft and (TempFigure <> nil) then
+    Properties[3].PullProperty(nil);
 end;
 
 procedure TRegularPolygonTool.MouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; MousePoint: TDoublePoint);
 begin
-  if TempRegularPolygon <> nil then
+  if TempFigure <> nil then
   begin
+<<<<<<< Updated upstream
+    AddFigure(TempRegularPolygon);
+    TempFigure := nil;
+=======
     TempFigure := TempRegularPolygon;
     TempRegularPolygon := nil;
+>>>>>>> Stashed changes
   end;
 end;
 

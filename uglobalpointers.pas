@@ -17,6 +17,7 @@ var
   GlobalIsMouseDownLeft, GlobalIsMouseDownMiddle: boolean;
   GlobalMousePoint: TPoint;
   GlobalInitUi: PointerToMethod;
+  GlobalCanvasInvalidate: PointerToMethod;
   GlobalWidth, GlobalHeight: integer;
 
 implementation

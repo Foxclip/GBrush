@@ -154,6 +154,7 @@ begin
   ButtonCols := InstrumentPanel.Width div ButtonSize;
   GlobalUpdateScrollBars := @UpdateScrollBars;
   UpdateFieldBoundingBox := @UpdateGlobalRectangle;
+  GlobalCanvasInvalidate := @MainPaintBox.Invalidate;
   CreateToolControls;
   SelectedTool := 0;
   GlobalPenColor := clBlack;
@@ -396,9 +397,13 @@ begin
     FieldBoundingBox.y1 := FigureArray[0].BoundingBox().y1;
     FieldBoundingBox.x2 := FigureArray[0].BoundingBox().x2;
     FieldBoundingBox.y2 := FigureArray[0].BoundingBox().y2;
+    if TempFigure <> nil then
+    begin
+      SetLength(FigureArray, Length(FigureArray) + 1);
+      FigureArray[High(FigureArray)] := TempFigure;
+    end;
     for i := Low(FigureArray) to High(FigureArray) do
     begin
-      { TODO : Заменить на min и max }
       if FigureArray[i].BoundingBox.x1 < FieldBoundingBox.x1 then
         FieldBoundingBox.x1 := FigureArray[i].BoundingBox.x1;
       if FigureArray[i].BoundingBox.x2 > FieldBoundingBox.x2 then
@@ -408,6 +413,9 @@ begin
       if FigureArray[i].BoundingBox.y2 > FieldBoundingBox.y2 then
         FieldBoundingBox.y2 := FigureArray[i].BoundingBox.y2;
     end;
+    if TempFigure <> nil then
+      if Length(FigureArray) > 0 then
+        SetLength(FigureArray, Length(FigureArray) - 1);
   end;
   UpdateScrollBars;
 end;

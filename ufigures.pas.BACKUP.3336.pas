@@ -17,7 +17,6 @@ type
     procedure Draw(Canv: TCanvas); virtual; abstract;
     procedure AddProperty(prop: TProperty);
     procedure SetProperties(canv: TCanvas);
-    procedure UnbindProperties;
     function BoundingBox(): TDoubleRect; virtual; abstract;
     constructor Create(props: PropertyArray);
   end;
@@ -100,7 +99,7 @@ begin
   SetLength(Properties, Length(props));
   for i := Low(Properties) to High(Properties) do
   begin
-    Properties[i] := props[i];
+    Properties[i] := props[i].CreateCopy();
   end;
   PenColor := GlobalPenColor;
 end;
@@ -140,7 +139,7 @@ var
 begin
   for i := Low(Properties) to High(Properties) do
   begin
-    Properties[i].PushProperty(canv);
+    Properties[i].PullProperty(canv);
   end;
 end;
 
@@ -247,20 +246,13 @@ end;
 
 procedure AddFigure(Fig: TFigure);
 begin
+<<<<<<< Updated upstream
+=======
   Fig.UnbindProperties;
+>>>>>>> Stashed changes
   SetLength(FigureArray, Length(FigureArray) + 1);
   FigureArray[High(FigureArray)] := Fig;
   UpdateFieldBoundingBox;
-end;
-
-procedure TFigure.UnbindProperties;
-var
-  i: integer;
-begin
-  for i := Low(Properties) to High(Properties) do
-  begin
-    Properties[i] := Properties[i].CreateCopy();
-  end;
 end;
 
 end.

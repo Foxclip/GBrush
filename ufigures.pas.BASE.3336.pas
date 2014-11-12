@@ -19,6 +19,7 @@ type
     procedure SetProperties(canv: TCanvas);
     procedure UnbindProperties;
     function BoundingBox(): TDoubleRect; virtual; abstract;
+    function CreateCopy(): TFigure; virtual; abstract;
     constructor Create(props: PropertyArray);
   end;
 
@@ -53,37 +54,44 @@ type
   TPenLine = class(TArrayPointFigure)
   public
     procedure Draw(Canv: TCanvas); override;
+    function CreateCopy(): TFigure; override;
   end;
 
   TLine = class(TTwoPointFigure)
   public
     procedure Draw(Canv: TCanvas); override;
+    function CreateCopy(): TFigure; override;
   end;
 
   TRectangle = class(TTwoPointFigureFilled)
   public
     procedure Draw(Canv: TCanvas); override;
+    function CreateCopy(): TFigure; override;
   end;
 
   TEllipse = class(TTwoPointFigureFilled)
   public
     procedure Draw(Canv: TCanvas); override;
+    function CreateCopy(): TFigure; override;
   end;
 
   TPolyLine = class(TArrayPointFigure)
   public
     procedure Draw(Canv: TCanvas); override;
+    function CreateCopy(): TFigure; override;
   end;
 
   TPolygon = class(TArrayPointFigureFilled)
   public
     procedure Draw(Canv: TCanvas); override;
+    function CreateCopy(): TFigure; override;
   end;
 
   TRegularPolygon = class(TArrayPointFigureFilled)
   public
     Center: TDoublePoint;
     procedure Draw(Canv: TCanvas); override;
+    function CreateCopy(): TFigure; override;
   end;
 
 var
@@ -184,6 +192,15 @@ begin
   Canv.Polyline(W2SArray(Points));
 end;
 
+function TPenLine.CreateCopy(): TFigure;
+var
+  temp: TPenLine;
+begin
+  temp := TPenLine.Create(Properties);
+  temp.Points := Points;
+  Result := temp;
+end;
+
 //Линия
 
 procedure TLine.Draw(Canv: TCanvas);
@@ -192,6 +209,16 @@ begin
   SetProperties(canv);
   Canv.Line(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
     W2SY(Point2.Y));
+end;
+
+function TLine.CreateCopy(): TFigure;
+var
+  temp: TLine;
+begin
+  temp := TLine.Create(Properties);
+  temp.Point1 := Point1;
+  temp.Point2 := Point2;
+  Result := temp;
 end;
 
 //Прямоугольник
@@ -205,6 +232,16 @@ begin
     W2SY(Point2.Y));
 end;
 
+function TRectangle.CreateCopy(): TFigure;
+var
+  temp: TRectangle;
+begin
+  temp := TRectangle.Create(Properties);
+  temp.Point1 := Point1;
+  temp.Point2 := Point2;
+  Result := temp;
+end;
+
 //Эллипс
 
 procedure TEllipse.Draw(Canv: TCanvas);
@@ -216,6 +253,16 @@ begin
     W2SY(Point2.Y));
 end;
 
+function TEllipse.CreateCopy(): TFigure;
+var
+  temp: TEllipse;
+begin
+  temp := TEllipse.Create(Properties);
+  temp.Point1 := Point1;
+  temp.Point2 := Point2;
+  Result := temp;
+end;
+
 //Ломаная
 
 procedure TPolyLine.Draw(Canv: TCanvas);
@@ -223,6 +270,15 @@ begin
   Canv.Pen.Color := PenColor;
   SetProperties(canv);
   Canv.Polyline(W2SArray(Points));
+end;
+
+function TPolyLine.CreateCopy(): TFigure;
+var
+  temp: TPolyLine;
+begin
+  temp := TPolyLine.Create(Properties);
+  temp.Points := Points;
+  Result := temp;
 end;
 
 //Многоугольник
@@ -235,6 +291,15 @@ begin
   Canv.Polygon(W2SArray(Points));
 end;
 
+function TPolygon.CreateCopy(): TFigure;
+var
+  temp: TPolygon;
+begin
+  temp := TPolygon.Create(Properties);
+  temp.Points := Points;
+  Result := temp;
+end;
+
 //Правильный многоугольник
 
 procedure TRegularPolygon.Draw(Canv: TCanvas);
@@ -245,11 +310,24 @@ begin
   Canv.Polygon(W2SArray(Points));
 end;
 
-procedure AddFigure(Fig: TFigure);
+function TRegularPolygon.CreateCopy(): TFigure;
+var
+  temp: TRegularPolygon;
 begin
-  Fig.UnbindProperties;
+  temp := TRegularPolygon.Create(Properties);
+  temp.Center := Center;
+  temp.Points := Points;
+  Result := temp;
+end;
+
+procedure AddFigure(Fig: TFigure);
+var
+  temp: TFigure;
+begin
+  temp := Fig.CreateCopy();
+  temp.UnbindProperties;
   SetLength(FigureArray, Length(FigureArray) + 1);
-  FigureArray[High(FigureArray)] := Fig;
+  FigureArray[High(FigureArray)] := temp;
   UpdateFieldBoundingBox;
 end;
 

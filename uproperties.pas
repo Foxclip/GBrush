@@ -120,6 +120,7 @@ begin
     4: PenStyle := psDashDot;
     5: PenStyle := psDashDotDot;
   end;
+  GlobalCanvasInvalidate;
 end;
 
 function TPenStyleProperty.CreateCopy(): TProperty;
@@ -151,6 +152,7 @@ end;
 procedure TPenWidthProperty.PropertyChange(Sender: TObject);
 begin
   PenWidth := (Sender as TSpinEdit).Value;
+  GlobalCanvasInvalidate;
 end;
 
 function TPenWidthProperty.CreateCopy(): TProperty;
@@ -189,6 +191,7 @@ begin
     2: BrushStyle := bsHorizontal;
     3: BrushStyle := bsVertical;
   end;
+  GlobalCanvasInvalidate;
 end;
 
 function TBrushStyleProperty.CreateCopy(): TProperty;
@@ -225,6 +228,7 @@ end;
 procedure TVerticesNumProperty.PropertyChange(Sender: TObject);
 begin
   Vertices := (Sender as TSpinEdit).Value;
+  GlobalCanvasInvalidate;
 end;
 
 end.
