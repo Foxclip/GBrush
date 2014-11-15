@@ -5,51 +5,63 @@ unit UProperties;
 interface
 
 uses
-  Classes, SysUtils, Graphics;
+  Classes, ExtCtrls, Dialogs, StdCtrls, Spin, SysUtils, Graphics,
+  UGlobalPointers;
 
 type
 
+  PointerToMethodLongInt = procedure(x: integer) of object;
+
   TProperty = class
-    procedure SetProperty(canv: TCanvas); virtual; abstract;
+    procedure PushProperty(canv: TCanvas); virtual; abstract;
+    procedure CreateEdit(panel: TPanel; index: integer); virtual; abstract;
+    procedure PropertyChange(Sender: TObject); virtual; abstract;
+    function CreateCopy(): TProperty; virtual; abstract;
   end;
 
-  TPenColorProperty = class(TProperty)
-    PenColor: TColor;
-    procedure SetProperty(canv: TCanvas); override;
-    constructor Create(pc: TColor);
-  end;
+  PropertyArray = array of TProperty;
 
   TPenStyleProperty = class(TProperty)
     PenStyle: TPenStyle;
-    procedure SetProperty(canv: TCanvas); override;
+    procedure PushProperty(canv: TCanvas); override;
+    procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
     constructor Create(ps: TPenStyle);
   end;
 
   TPenWidthProperty = class(TProperty)
     PenWidth: integer;
-    procedure SetProperty(canv: TCanvas); override;
+    procedure PushProperty(canv: TCanvas); override;
+    procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
     constructor Create(w: integer);
-  end;
-
-
-  TBrushColorProperty = class(TProperty)
-    BrushColor: TColor;
-    procedure SetProperty(canv: TCanvas); override;
-    constructor Create(bc: TColor);
   end;
 
   TBrushStyleProperty = class(TProperty)
     BrushStyle: TBrushStyle;
-    procedure SetProperty(canv: TCanvas); override;
+    procedure PushProperty(canv: TCanvas); override;
+    procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
     constructor Create(bs: TBrushStyle);
   end;
 
-implementation
+  TVerticesNumProperty = class(TProperty)
+    Vertices: integer;
+    BuildMethod: PointerToMethodLongInt;
+    procedure PushProperty(canv: TCanvas); override;
+    procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
+    constructor Create(vert: integer; build: PointerToMethodLongInt);
+  end;
 
-constructor TPenColorProperty.Create(pc: TColor);
-begin
-  PenColor := pc;
-end;
+const
+  ItmHeight = 30;
+
+implementation
 
 constructor TPenStyleProperty.Create(ps: TPenStyle);
 begin
@@ -61,39 +73,162 @@ begin
   PenWidth := w;
 end;
 
-constructor TBrushColorProperty.Create(bc: TColor);
-begin
-  BrushColor := bc;
-end;
-
 constructor TBrushStyleProperty.Create(bs: TBrushStyle);
 begin
   BrushStyle := bs;
 end;
 
-procedure TPenColorProperty.SetProperty(canv: TCanvas);
+constructor TVerticesNumProperty.Create(vert: integer;
+  build: PointerToMethodLongInt);
 begin
-  canv.Pen.Color := PenColor;
+  Vertices := vert;
+  BuildMethod := build;
 end;
 
-procedure TPenStyleProperty.SetProperty(canv: TCanvas);
+procedure TPenStyleProperty.PushProperty(canv: TCanvas);
 begin
   canv.Pen.Style := PenStyle;
 end;
 
-procedure TPenWidthProperty.SetProperty(canv: TCanvas);
+procedure TPenStyleProperty.CreateEdit(panel: TPanel; index: integer);
+var
+  Edit: TComboBox;
+begin
+  Edit := TComboBox.Create(panel);
+  with Edit do
+  begin
+    OnChange := @PropertyChange;
+    Parent := panel;
+    Items.Add('psSolid');
+    Items.Add('psClear');
+    Items.Add('psDash');
+    Items.Add('psDot');
+    Items.Add('psDashDot');
+    Items.Add('psDashDotDot');
+    ItemIndex := 0;
+    SetBounds(5, index * ItmHeight, Width, Height);
+  end;
+end;
+
+procedure TPenStyleProperty.PropertyChange(Sender: TObject);
+begin
+  case (Sender as TComboBox).ItemIndex of
+    0: PenStyle := psSolid;
+    1: PenStyle := psClear;
+    2: PenStyle := psDash;
+    3: PenStyle := psDot;
+    4: PenStyle := psDashDot;
+    5: PenStyle := psDashDotDot;
+  end;
+  GlobalCanvasInvalidate;
+end;
+
+function TPenStyleProperty.CreateCopy(): TProperty;
+begin
+  Result := TPenStyleProperty.Create(PenStyle);
+end;
+
+procedure TPenWidthProperty.PushProperty(canv: TCanvas);
 begin
   canv.Pen.Width := PenWidth;
 end;
 
-procedure TBrushColorProperty.SetProperty(canv: TCanvas);
+procedure TPenWidthProperty.CreateEdit(panel: TPanel; index: integer);
+var
+  Edit: TSpinEdit;
 begin
-  canv.Brush.Color := BrushColor;
+  Edit := TSpinEdit.Create(panel);
+  with Edit do
+  begin
+    OnChange := @PropertyChange;
+    Parent := panel;
+    MinValue := 1;
+    MaxValue := 100;
+    Value := PenWidth;
+    SetBounds(5, index * ItmHeight, Width, Height);
+  end;
 end;
 
-procedure TBrushStyleProperty.SetProperty(canv: TCanvas);
+procedure TPenWidthProperty.PropertyChange(Sender: TObject);
+begin
+  PenWidth := (Sender as TSpinEdit).Value;
+  GlobalCanvasInvalidate;
+end;
+
+function TPenWidthProperty.CreateCopy(): TProperty;
+begin
+  Result := TPenWidthProperty.Create(PenWidth);
+end;
+
+procedure TBrushStyleProperty.PushProperty(canv: TCanvas);
 begin
   canv.Brush.Style := BrushStyle;
+end;
+
+procedure TBrushStyleProperty.CreateEdit(panel: TPanel; index: integer);
+var
+  Edit: TComboBox;
+begin
+  Edit := TComboBox.Create(panel);
+  with Edit do
+  begin
+    OnChange := @PropertyChange;
+    Parent := panel;
+    Items.Add('bsSolid');
+    Items.Add('bsClear');
+    Items.Add('bsHorizontal');
+    Items.Add('bsVertical');
+    ItemIndex := 1;
+    SetBounds(5, index * ItmHeight, Width, Height);
+  end;
+end;
+
+procedure TBrushStyleProperty.PropertyChange(Sender: TObject);
+begin
+  case (Sender as TComboBox).ItemIndex of
+    0: BrushStyle := bsSolid;
+    1: BrushStyle := bsClear;
+    2: BrushStyle := bsHorizontal;
+    3: BrushStyle := bsVertical;
+  end;
+  GlobalCanvasInvalidate;
+end;
+
+function TBrushStyleProperty.CreateCopy(): TProperty;
+begin
+  Result := TBrushStyleProperty.Create(BrushStyle);
+end;
+
+procedure TVerticesNumProperty.PushProperty(canv: TCanvas);
+begin
+  BuildMethod(Vertices);
+end;
+
+procedure TVerticesNumProperty.CreateEdit(panel: TPanel; index: integer);
+var
+  Edit: TSpinEdit;
+begin
+  Edit := TSpinEdit.Create(panel);
+  with Edit do
+  begin
+    OnChange := @PropertyChange;
+    Parent := panel;
+    MinValue := 1;
+    MaxValue := 100;
+    Value := Vertices;
+    SetBounds(5, index * ItmHeight, Width, Height);
+  end;
+end;
+
+function TVerticesNumProperty.CreateCopy(): TProperty;
+begin
+  Result := TVerticesNumProperty.Create(Vertices, BuildMethod);
+end;
+
+procedure TVerticesNumProperty.PropertyChange(Sender: TObject);
+begin
+  Vertices := (Sender as TSpinEdit).Value;
+  GlobalCanvasInvalidate;
 end;
 
 end.

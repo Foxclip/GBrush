@@ -17,7 +17,8 @@ type
     ColorDialog1: TColorDialog;
     CornerPanel: TPanel;
     PropertyPanel: TPanel;
-    SpeedButton1: TSpeedButton;
+    FullExtendButton: TSpeedButton;
+    ClearButton: TSpeedButton;
     ToolPanel: TPanel;
     ScrollBarSide: TScrollBar;
     ScrollBarBottom: TScrollBar;
@@ -27,6 +28,7 @@ type
     MainPaintBox: TPaintBox;
     InstrumentPanel: TPanel;
     ColorChangeButton: TSpeedButton;
+    procedure ClearButtonClick(Sender: TObject);
     procedure ColorChangeButtonClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure ScrollBarScroll(Sender: TObject; ScrollCode: TScrollCode;
@@ -52,16 +54,15 @@ type
     procedure MouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
     procedure Paint(Sender: TObject);
     procedure InstrumentButtonClick(Sender: TObject);
-    procedure CreateControls;
+    procedure CreateToolControls;
     procedure CreateInstrumentButton(tool: TTool);
     procedure SetPenColor(col: Tcolor);
     procedure SetBrushColor(col: Tcolor);
     procedure UpdateColors;
-    procedure SetPenStyle(style: TPenStyle);
-    procedure SetBrushStyle(style: TBrushStyle);
     procedure UpdateScrollBars;
     procedure UpdateGlobalRectangle;
-    procedure InitUi;
+    procedure InitPropertiesEdit;
+    //procedure PropertyChange;
   end;
 
 const
@@ -153,13 +154,11 @@ begin
   ButtonCols := InstrumentPanel.Width div ButtonSize;
   GlobalUpdateScrollBars := @UpdateScrollBars;
   UpdateFieldBoundingBox := @UpdateGlobalRectangle;
-  CreateControls;
+  GlobalCanvasInvalidate := @MainPaintBox.Invalidate;
+  CreateToolControls;
   SelectedTool := 0;
   GlobalPenColor := clBlack;
   GlobalBrushColor := clWhite;
-  GlobalBrushStyle := bsClear;
-  GlobalPenSize := 1;
-  GlobalAngleNum := 6;
   GlobalWidth := MainPaintBox.Width;
   GlobalHeight := MainPaintBox.Height;
   SetScale(1);
@@ -169,6 +168,7 @@ begin
   PalletColors[1, 0] := TColor($00FF00);
   PalletColors[2, 0] := clBlue;
   UpdateColors;
+  InitPropertiesEdit;
 end;
 
 procedure TMainForm.FirstColorImageMouseDown(Sender: TObject;
@@ -194,6 +194,7 @@ end;
 procedure TMainForm.InstrumentButtonClick(Sender: TObject);
 begin
   SelectedTool := (Sender as TSpeedButton).Tag;
+  InitPropertiesEdit;
 end;
 
 procedure TMainForm.PalletDrawCell(Sender: TObject; aCol, aRow: integer;
@@ -211,6 +212,19 @@ begin
   SetPenColor(GlobalBrushColor);
   SetBrushColor(temp);
   UpdateColors;
+end;
+
+procedure TMainForm.ClearButtonClick(Sender: TObject);
+var
+  i: integer;
+begin
+  for i := Low(FigureArray) to High(FigureArray) do
+    FigureArray[i].Free;
+  SetLength(FigureArray, 0);
+  TempFigure := nil;
+  TempFigure.Free;
+  UpdateGlobalRectangle;
+  MainPaintBox.Invalidate;
 end;
 
 procedure TMainForm.FormResize(Sender: TObject);
@@ -383,6 +397,11 @@ begin
     FieldBoundingBox.y1 := FigureArray[0].BoundingBox().y1;
     FieldBoundingBox.x2 := FigureArray[0].BoundingBox().x2;
     FieldBoundingBox.y2 := FigureArray[0].BoundingBox().y2;
+    if TempFigure <> nil then
+    begin
+      SetLength(FigureArray, Length(FigureArray) + 1);
+      FigureArray[High(FigureArray)] := TempFigure;
+    end;
     for i := Low(FigureArray) to High(FigureArray) do
     begin
       if FigureArray[i].BoundingBox.x1 < FieldBoundingBox.x1 then
@@ -394,6 +413,9 @@ begin
       if FigureArray[i].BoundingBox.y2 > FieldBoundingBox.y2 then
         FieldBoundingBox.y2 := FigureArray[i].BoundingBox.y2;
     end;
+    if TempFigure <> nil then
+      if Length(FigureArray) > 0 then
+        SetLength(FigureArray, Length(FigureArray) - 1);
   end;
   UpdateScrollBars;
 end;
@@ -406,16 +428,6 @@ end;
 procedure TMainForm.SetBrushColor(col: Tcolor);
 begin
   GlobalBrushColor := col;
-end;
-
-procedure TMainForm.SetPenStyle(style: TPenStyle);
-begin
-  GlobalPenStyle := style;
-end;
-
-procedure TMainForm.SetBrushStyle(style: TBrushStyle);
-begin
-  GlobalBrushStyle := style;
 end;
 
 procedure TMainForm.Paint(Sender: TObject);
@@ -442,7 +454,7 @@ begin
   end;
 end;
 
-procedure TMainForm.CreateControls;
+procedure TMainForm.CreateToolControls;
 var
   i: integer;
 begin
@@ -450,9 +462,17 @@ begin
     CreateInstrumentButton(ToolArray[i]);
 end;
 
-procedure TMainForm.InitUi;
+procedure TMainForm.InitPropertiesEdit;
+var
+  i: integer;
 begin
-
+  while PropertyPanel.ControlCount > 0 do
+    PropertyPanel.Controls[0].Free;
+  with ToolArray[SelectedTool] do
+    for i := Low(Properties) to High(Properties) do
+    begin
+      Properties[i].CreateEdit(PropertyPanel, PropertyPanel.ControlCount);
+    end;
 end;
 
 procedure TMainForm.CreateInstrumentButton(tool: TTool);

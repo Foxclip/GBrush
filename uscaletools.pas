@@ -90,10 +90,11 @@ begin
     IsMouseDragged := True;
     if TempFigure = nil then
     begin
-      TempZoomRectangle := TRectangle.Create(MousePoint);
+      TempZoomRectangle := TRectangle.Create(Properties);
+      TempZoomRectangle.Point1 := MousePoint;
+      TempZoomRectangle.Point2 := MousePoint;
       with TempZoomRectangle do
       begin
-        AddProperty(TPenColorProperty.Create(clBlack));
         AddProperty(TPenWidthProperty.Create(1));
         AddProperty(TPenStyleProperty.Create(psDash));
         AddProperty(TBrushStyleProperty.Create(bsClear));

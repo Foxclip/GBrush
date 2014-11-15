@@ -14,13 +14,10 @@ type
 var
   GlobalPenColor: TColor;
   GlobalBrushColor: TColor;
-  GlobalPenStyle: TPenStyle;
-  GlobalBrushStyle: TBrushStyle;
-  GlobalPenSize: integer;
-  GlobalAngleNum: integer;
   GlobalIsMouseDownLeft, GlobalIsMouseDownMiddle: boolean;
   GlobalMousePoint: TPoint;
   GlobalInitUi: PointerToMethod;
+  GlobalCanvasInvalidate: PointerToMethod;
   GlobalWidth, GlobalHeight: integer;
 
 implementation
