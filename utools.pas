@@ -75,6 +75,19 @@ type
     constructor Create;
   end;
 
+  TRoundedRectangleTool = class(TTool)
+  public
+    TempRoundedRectangle: TRoundedRectangle;
+    procedure MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; MousePoint: TDoublePoint); override;
+    procedure MouseMove(Sender: TObject; Shift: TShiftState;
+      MousePoint: TDoublePoint); override;
+    procedure MouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; MousePoint: TDoublePoint); override;
+    function GetGlyphString: string; override;
+    constructor Create;
+  end;
+
   TPolyLineTool = class(TTool)
   public
     TempPolyLine: TPolyLine;
@@ -344,6 +357,62 @@ begin
   Result := 'glyphs/ellipse.bmp';
 end;
 
+//Прямоугольник со скруглёнными углами
+
+constructor TRoundedRectangleTool.Create;
+begin
+  AddProperty(TPenWidthProperty.Create(1));
+  AddProperty(TPenStyleProperty.Create(psSolid));
+  AddProperty(TBrushStyleProperty.Create(bsClear));
+  AddProperty(TRoundProperty.Create(50, 50));
+end;
+
+procedure TRoundedRectangleTool.MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; MousePoint: TDoublePoint);
+begin
+  if Button = mbLeft then
+  begin
+    if TempFigure <> nil then
+      AddFigure(TempFigure);
+    if TempRoundedRectangle = nil then
+    begin
+      TempRoundedRectangle := TRoundedRectangle.Create(Properties);
+      TempRoundedRectangle.Point1 := MousePoint;
+      TempRoundedRectangle.Point2 := MousePoint;
+      TempFigure := TempRoundedRectangle;
+    end
+    else
+    begin
+      TempFigure := TempRoundedRectangle;
+      TempRoundedRectangle := nil;
+    end;
+  end;
+end;
+
+procedure TRoundedRectangleTool.MouseMove(Sender: TObject;
+  Shift: TShiftState; MousePoint: TDoublePoint);
+begin
+  if GlobalIsMouseDownLeft and (TempRoundedRectangle <> nil) then
+  begin
+    TempRoundedRectangle.Point2 := MousePoint;
+  end;
+end;
+
+procedure TRoundedRectangleTool.MouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; MousePoint: TDoublePoint);
+begin
+  if TempRoundedRectangle <> nil then
+  begin
+    TempFigure := TempRoundedRectangle;
+    TempRoundedRectangle := nil;
+  end;
+end;
+
+function TRoundedRectangleTool.GetGlyphString: string;
+begin
+  Result := 'glyphs/rounded_rectangle.bmp';
+end;
+
 //Ломаная
 
 constructor TPolyLineTool.Create;
@@ -535,5 +604,6 @@ initialization
   RegisterTool(TPolyLineTool.Create);
   RegisterTool(TPolygonTool.Create);
   RegisterTool(TRegularPolygonTool.Create);
+  RegisterTool(TRoundedRectangleTool.Create);
 
 end.

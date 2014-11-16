@@ -197,6 +197,11 @@ procedure TMainForm.InstrumentButtonClick(Sender: TObject);
 begin
   SelectedTool := (Sender as TSpeedButton).Tag;
   InitPropertiesEdit;
+  if TempFigure <> nil then
+  begin
+    AddFigure(TempFigure);
+    TempFigure := nil;
+  end;
 end;
 
 procedure TMainForm.PalletDrawCell(Sender: TObject; aCol, aRow: integer;
@@ -428,12 +433,6 @@ begin
     TextOut(0, 0, 'Масштаб: ' + FormatFloat('0.000', GetScale) +
       '; Э x: ' + FormatFloat('0.000', Offset.x) + '; Э y: ' +
       FormatFloat('0.000', Offset.y));
-    {if TempFigure <> nil then
-    begin
-      TextOut(0, 20, 'TempFigure');
-      with TempFigure.BoundingBox do
-        Rectangle(W2SX(x1), W2SY(y1), W2SX(x2), W2SY(y2));
-    end;}
   end;
 end;
 

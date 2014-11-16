@@ -58,6 +58,15 @@ type
     constructor Create(vert: integer; build: PointerToMethodLongInt);
   end;
 
+  TRoundProperty = class(TProperty)
+    RoundX, RoundY: integer;
+    procedure PushProperty(canv: TCanvas); override;
+    procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
+    constructor Create(X, Y: integer);
+  end;
+
 const
   ItmHeight = 30;
 
@@ -83,6 +92,12 @@ constructor TVerticesNumProperty.Create(vert: integer;
 begin
   Vertices := vert;
   BuildMethod := build;
+end;
+
+constructor TRoundProperty.Create(X, Y: integer);
+begin
+  RoundX := X;
+  RoundY := Y;
 end;
 
 procedure TPenStyleProperty.PushProperty(canv: TCanvas);
@@ -229,6 +244,53 @@ procedure TVerticesNumProperty.PropertyChange(Sender: TObject);
 begin
   Vertices := (Sender as TSpinEdit).Value;
   GlobalCanvasInvalidate;
+end;
+
+procedure TRoundProperty.PushProperty(canv: TCanvas);
+begin
+  //canv.Pen.Width := PenWidth;
+end;
+
+procedure TRoundProperty.CreateEdit(panel: TPanel; index: integer);
+var
+  EditX, EditY: TSpinEdit;
+begin
+  EditX := TSpinEdit.Create(panel);
+  with EditX do
+  begin
+    OnChange := @PropertyChange;
+    Parent := panel;
+    MinValue := 1;
+    MaxValue := 1000;
+    Value := RoundX;
+    Tag := 1;
+    SetBounds(5, index * ItmHeight, Width, Height);
+  end;
+  EditY := TSpinEdit.Create(panel);
+  with EditY do
+  begin
+    OnChange := @PropertyChange;
+    Parent := panel;
+    MinValue := 1;
+    MaxValue := 1000;
+    Value := RoundY;
+    Tag := 2;
+    SetBounds(5, (index + 1) * ItmHeight, Width, Height);
+  end;
+end;
+
+procedure TRoundProperty.PropertyChange(Sender: TObject);
+begin
+  case (Sender as TSpinEdit).Tag of
+    1: RoundX := (Sender as TSpinEdit).Value;
+    2: RoundY := (Sender as TSpinEdit).Value;
+  end;
+  GlobalCanvasInvalidate;
+end;
+
+function TRoundProperty.CreateCopy(): TProperty;
+begin
+  Result := TRoundProperty.Create(RoundX, RoundY);
 end;
 
 end.

@@ -65,6 +65,11 @@ type
     procedure Draw(Canv: TCanvas); override;
   end;
 
+  TRoundedRectangle = class(TTwoPointFigureFilled)
+  public
+    procedure Draw(Canv: TCanvas); override;
+  end;
+
   TEllipse = class(TTwoPointFigureFilled)
   public
     procedure Draw(Canv: TCanvas); override;
@@ -213,6 +218,18 @@ begin
   SetProperties(canv);
   Canv.Ellipse(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
     W2SY(Point2.Y));
+end;
+
+//Прямоугольник со скруглёнными углами
+
+procedure TRoundedRectangle.Draw(Canv: TCanvas);
+begin
+  Canv.Pen.Color := PenColor;
+  Canv.Brush.Color := BrushColor;
+  SetProperties(canv);
+  Canv.RoundRect(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
+    W2SY(Point2.Y), (Properties[3] as TRoundProperty).RoundX,
+    (Properties[3] as TRoundProperty).RoundY);
 end;
 
 //Ломаная
