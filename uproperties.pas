@@ -70,6 +70,10 @@ type
 const
   ItmHeight = 30;
 
+var
+  TempRoundX, TempRoundY: integer;
+  TempVertices: integer;
+
 implementation
 
 constructor TPenStyleProperty.Create(ps: TPenStyle);
@@ -248,7 +252,8 @@ end;
 
 procedure TRoundProperty.PushProperty(canv: TCanvas);
 begin
-  //canv.Pen.Width := PenWidth;
+  TempRoundX := RoundX;
+  TempRoundY := RoundY;
 end;
 
 procedure TRoundProperty.CreateEdit(panel: TPanel; index: integer);

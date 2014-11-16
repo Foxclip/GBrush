@@ -272,23 +272,21 @@ begin
   begin
     x1 := Math.Min(Offset.x, FieldBoundingBox.x1);
     y1 := Math.Min(Offset.y, FieldBoundingBox.y1);
-    x2 := Math.Max(Offset.x + MainPaintBox.Width / GetScale,
-      FieldBoundingBox.x2);
+    x2 := Math.Max(Offset.x + MainPaintBox.Width /
+      GetScale, FieldBoundingBox.x2);
     y2 := Math.Max(Offset.y + MainPaintBox.Height / GetScale,
       FieldBoundingBox.y2);
-  end;
-  case ScrollCode of
-    scTrack:
-    begin
-      if Sender = ScrollBarBottom then
-        Offset.x := (ScrollPos * (TempBoundingBox.x2 -
-          TempBoundingBox.x1)) / ScrollBarBottom.Max + TempBoundingBox.x1;
-      if Sender = ScrollBarSide then
-        Offset.y := (ScrollPos * (TempBoundingBox.y2 -
-          TempBoundingBox.y1)) / ScrollBarSide.Max + TempBoundingBox.y1;
+    case ScrollCode of
+      scTrack:
+      begin
+        if Sender = ScrollBarBottom then
+          Offset.x := (ScrollPos * (x2 - x1)) / ScrollBarBottom.Max + x1;
+        if Sender = ScrollBarSide then
+          Offset.y := (ScrollPos * (y2 - y1)) / ScrollBarSide.Max + y1;
+      end;
+      scEndScroll:
+        UpdateScrollBars;
     end;
-    scEndScroll:
-      UpdateScrollBars;
   end;
   MainPaintBox.Invalidate;
 end;
@@ -365,19 +363,17 @@ begin
       FieldBoundingBox.x2);
     y2 := Math.Max(Offset.y + MainPaintBox.Height / GetScale,
       FieldBoundingBox.y2);
+    ScrollBarBottom.PageSize :=
+      trunc(((MainPaintBox.Width / GetScale) / (x2 - x1)) *
+      ScrollBarBottom.Max);
+    ScrollBarSide.PageSize :=
+      trunc(((MainPaintBox.Height / GetScale) / (y2 - y1)) *
+      ScrollBarSide.Max);
+    ScrollBarBottom.Position :=
+      trunc(((Offset.x - x1) / (x2 - x1)) * ScrollBarBottom.Max);
+    ScrollBarSide.Position :=
+      trunc(((Offset.y - y1) / (y2 - y1)) * ScrollBarSide.Max);
   end;
-  ScrollBarBottom.PageSize :=
-    trunc(((MainPaintBox.Width / GetScale) /
-    (TempBoundingBox.x2 - TempBoundingBox.x1)) * ScrollBarBottom.Max);
-  ScrollBarSide.PageSize :=
-    trunc(((MainPaintBox.Height / GetScale) /
-    (TempBoundingBox.y2 - TempBoundingBox.y1)) * ScrollBarSide.Max);
-  ScrollBarBottom.Position :=
-    trunc(((Offset.x - TempBoundingBox.x1) /
-    (TempBoundingBox.x2 - TempBoundingBox.x1)) * ScrollBarBottom.Max);
-  ScrollBarSide.Position :=
-    trunc(((Offset.y - TempBoundingBox.y1) /
-    (TempBoundingBox.y2 - TempBoundingBox.y1)) * ScrollBarSide.Max);
   ScrollBarBottom.Update;
   ScrollBarSide.Update;
 end;

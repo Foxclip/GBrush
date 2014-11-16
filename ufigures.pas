@@ -15,7 +15,7 @@ type
     PenColor: TColor;
     Properties: array of TProperty;
     procedure Draw(Canv: TCanvas); virtual; abstract;
-    procedure AddProperty(prop: TProperty);
+    function AddProperty(prop: TProperty): TProperty;
     procedure SetProperties(canv: TCanvas);
     procedure UnbindProperties;
     function BoundingBox(): TDoubleRect; virtual; abstract;
@@ -133,10 +133,11 @@ begin
   end;
 end;
 
-procedure TFigure.AddProperty(prop: TProperty);
+function TFigure.AddProperty(prop: TProperty): TProperty;
 begin
   SetLength(Properties, Length(Properties) + 1);
   Properties[High(Properties)] := prop;
+  Result := prop;
 end;
 
 procedure TFigure.SetProperties(canv: TCanvas);
@@ -227,9 +228,8 @@ begin
   Canv.Pen.Color := PenColor;
   Canv.Brush.Color := BrushColor;
   SetProperties(canv);
-  Canv.RoundRect(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
-    W2SY(Point2.Y), (Properties[3] as TRoundProperty).RoundX,
-    (Properties[3] as TRoundProperty).RoundY);
+  Canv.RoundRect(W2SX(Point1.X), W2SY(Point1.Y),
+    W2SX(Point2.X), W2SY(Point2.Y), TempRoundX, TempRoundY);
 end;
 
 //Ломаная

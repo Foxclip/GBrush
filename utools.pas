@@ -19,7 +19,7 @@ type
       MousePoint: TDoublePoint); virtual; abstract;
     procedure MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); virtual; abstract;
-    procedure AddProperty(prop: TProperty);
+    function AddProperty(prop: TProperty): TProperty;
     function GetGlyphString: string; virtual; abstract;
   end;
 
@@ -117,6 +117,8 @@ type
   TRegularPolygonTool = class(TTool)
   public
     TempRegularPolygon: TRegularPolygon;
+    BuildMethodBack:
+    procedure(canv: TCanvas) of object;
     procedure MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; MousePoint: TDoublePoint); override;
     procedure MouseMove(Sender: TObject; Shift: TShiftState;
@@ -137,10 +139,11 @@ procedure RegisterTool(tool: TTool);
 
 implementation
 
-procedure TTool.AddProperty(prop: TProperty);
+function TTool.AddProperty(prop: TProperty): TProperty;
 begin
   SetLength(Properties, Length(Properties) + 1);
   Properties[High(Properties)] := prop;
+  Result := prop;
 end;
 
 //Карандаш
@@ -519,11 +522,14 @@ end;
 //Правильный многоугольник
 
 constructor TRegularPolygonTool.Create;
+var
+  prop: TProperty;
 begin
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TBrushStyleProperty.Create(bsClear));
-  AddProperty(TVerticesNumProperty.Create(6, @BuildRegularPolygon));
+  prop := AddProperty(TVerticesNumProperty.Create(6, @BuildRegularPolygon));
+  BuildMethodBack := @prop.PushProperty;
 end;
 
 procedure TRegularPolygonTool.MouseDown(Sender: TObject;
@@ -537,7 +543,7 @@ begin
     begin
       TempRegularPolygon := TRegularPolygon.Create(Properties);
       TempRegularPolygon.Center := MousePoint;
-      Properties[3].PushProperty(nil);
+      BuildMethodBack(nil);
       TempFigure := TempRegularPolygon;
     end
     else
@@ -552,7 +558,7 @@ procedure TRegularPolygonTool.MouseMove(Sender: TObject;
   Shift: TShiftState; MousePoint: TDoublePoint);
 begin
   if GlobalIsMouseDownLeft and (TempRegularPolygon <> nil) then
-    Properties[3].PushProperty(nil);
+    BuildMethodBack(nil);
 end;
 
 procedure TRegularPolygonTool.MouseUp(Sender: TObject;
