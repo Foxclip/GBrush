@@ -62,7 +62,7 @@ type
     procedure UpdateScrollBars;
     procedure UpdateGlobalRectangle;
     procedure InitPropertiesEdit;
-    //procedure PropertyChange;
+    function EnhanceBoundingBox(subj, obj: TDoubleRect): TDoubleRect;
   end;
 
 const
@@ -116,6 +116,8 @@ begin
   MousePoint.y := S2WY(Y);
   ToolArray[SelectedTool].MouseMove(
     Sender, Shift, MousePoint);
+  if GlobalIsMouseDownLeft then
+    UpdateFieldBoundingBox;
   if GlobalIsMouseDownMiddle then
   begin
     Offset.x -= (X - MouseLastX) / GetScale;
@@ -259,23 +261,17 @@ end;
 procedure TMainForm.ScrollBarScroll(Sender: TObject;
   ScrollCode: TScrollCode; var ScrollPos: integer);
 var
-  ox, oy: double;
-  bx1, by1, bx2, by2: double;
-  w, h: double;
   TempBoundingBox: TDoubleRect;
 begin
-  ox := Offset.x;
-  oy := Offset.y;
-  bx1 := FieldBoundingBox.x1;
-  by1 := FieldBoundingBox.y1;
-  bx2 := FieldBoundingBox.x2;
-  by2 := FieldBoundingBox.y2;
-  w := ox + MainPaintBox.Width / GetScale;
-  h := oy + MainPaintBox.Height / GetScale;
-  TempBoundingBox.x1 := Math.Min(ox, bx1);
-  TempBoundingBox.y1 := Math.Min(oy, by1);
-  TempBoundingBox.x2 := Math.Max(w, bx2);
-  TempBoundingBox.y2 := Math.Max(h, by2);
+  with TempBoundingBox do
+  begin
+    x1 := Math.Min(Offset.x, FieldBoundingBox.x1);
+    y1 := Math.Min(Offset.y, FieldBoundingBox.y1);
+    x2 := Math.Max(Offset.x + MainPaintBox.Width / GetScale,
+      FieldBoundingBox.x2);
+    y2 := Math.Max(Offset.y + MainPaintBox.Height / GetScale,
+      FieldBoundingBox.y2);
+  end;
   case ScrollCode of
     scTrack:
     begin
@@ -354,23 +350,17 @@ end;
 
 procedure TMainForm.UpdateScrollBars;
 var
-  ox, oy: double;
-  bx1, by1, bx2, by2: double;
-  w, h: double;
   TempBoundingBox: TDoubleRect;
 begin
-  ox := Offset.x;
-  oy := Offset.y;
-  bx1 := FieldBoundingBox.x1;
-  by1 := FieldBoundingBox.y1;
-  bx2 := FieldBoundingBox.x2;
-  by2 := FieldBoundingBox.y2;
-  w := ox + MainPaintBox.Width / GetScale;
-  h := oy + MainPaintBox.Height / GetScale;
-  TempBoundingBox.x1 := Math.Min(ox, bx1);
-  TempBoundingBox.y1 := Math.Min(oy, by1);
-  TempBoundingBox.x2 := Math.Max(w, bx2);
-  TempBoundingBox.y2 := Math.Max(h, by2);
+  with TempBoundingBox do
+  begin
+    x1 := Math.Min(Offset.x, FieldBoundingBox.x1);
+    y1 := Math.Min(Offset.y, FieldBoundingBox.y1);
+    x2 := Math.Max(Offset.x + MainPaintBox.Width / GetScale,
+      FieldBoundingBox.x2);
+    y2 := Math.Max(Offset.y + MainPaintBox.Height / GetScale,
+      FieldBoundingBox.y2);
+  end;
   ScrollBarBottom.PageSize :=
     trunc(((MainPaintBox.Width / GetScale) /
     (TempBoundingBox.x2 - TempBoundingBox.x1)) * ScrollBarBottom.Max);
@@ -378,11 +368,11 @@ begin
     trunc(((MainPaintBox.Height / GetScale) /
     (TempBoundingBox.y2 - TempBoundingBox.y1)) * ScrollBarSide.Max);
   ScrollBarBottom.Position :=
-    trunc(((ox - TempBoundingBox.x1) / (TempBoundingBox.x2 -
-    TempBoundingBox.x1)) * ScrollBarBottom.Max);
+    trunc(((Offset.x - TempBoundingBox.x1) /
+    (TempBoundingBox.x2 - TempBoundingBox.x1)) * ScrollBarBottom.Max);
   ScrollBarSide.Position :=
-    trunc(((oy - TempBoundingBox.y1) / (TempBoundingBox.y2 -
-    TempBoundingBox.y1)) * ScrollBarSide.Max);
+    trunc(((Offset.y - TempBoundingBox.y1) /
+    (TempBoundingBox.y2 - TempBoundingBox.y1)) * ScrollBarSide.Max);
   ScrollBarBottom.Update;
   ScrollBarSide.Update;
 end;
@@ -391,32 +381,17 @@ procedure TMainForm.UpdateGlobalRectangle;
 var
   i: integer;
 begin
+  if TempFigure <> nil then
+    FieldBoundingBox := TempFigure.BoundingBox;
   if Length(FigureArray) > 0 then
   begin
-    FieldBoundingBox.x1 := FigureArray[0].BoundingBox().x1;
-    FieldBoundingBox.y1 := FigureArray[0].BoundingBox().y1;
-    FieldBoundingBox.x2 := FigureArray[0].BoundingBox().x2;
-    FieldBoundingBox.y2 := FigureArray[0].BoundingBox().y2;
-    if TempFigure <> nil then
-    begin
-      SetLength(FigureArray, Length(FigureArray) + 1);
-      FigureArray[High(FigureArray)] := TempFigure;
-    end;
     for i := Low(FigureArray) to High(FigureArray) do
-    begin
-      if FigureArray[i].BoundingBox.x1 < FieldBoundingBox.x1 then
-        FieldBoundingBox.x1 := FigureArray[i].BoundingBox.x1;
-      if FigureArray[i].BoundingBox.x2 > FieldBoundingBox.x2 then
-        FieldBoundingBox.x2 := FigureArray[i].BoundingBox.x2;
-      if FigureArray[i].BoundingBox.y1 < FieldBoundingBox.y1 then
-        FieldBoundingBox.y1 := FigureArray[i].BoundingBox.y1;
-      if FigureArray[i].BoundingBox.y2 > FieldBoundingBox.y2 then
-        FieldBoundingBox.y2 := FigureArray[i].BoundingBox.y2;
-    end;
-    if TempFigure <> nil then
-      if Length(FigureArray) > 0 then
-        SetLength(FigureArray, Length(FigureArray) - 1);
+      FieldBoundingBox := EnhanceBoundingBox(FigureArray[i].BoundingBox,
+        FieldBoundingBox);
   end;
+  if TempFigure <> nil then
+    FieldBoundingBox := EnhanceBoundingBox(TempFigure.BoundingBox,
+      FieldBoundingBox);
   UpdateScrollBars;
 end;
 
@@ -440,17 +415,25 @@ begin
     Brush.Color := clWhite;
     Brush.Style := bsSolid;
     Rectangle(0, 0, Width, Height);
-    if Length(FigureArray) > 0 then
-      for i := 0 to High(FigureArray) do
-        FigureArray[i].Draw(MainPaintBox.Canvas);
+    for i := Low(FigureArray) to High(FigureArray) do
+    begin
+      FigureArray[i].Draw(MainPaintBox.Canvas);
+    end;
     if TempFigure <> nil then
       TempFigure.Draw(MainPaintBox.Canvas);
+    Pen.Style := psSolid;
     Pen.Color := clRed;
     Pen.Width := 1;
     Brush.Style := bsClear;
     TextOut(0, 0, 'Масштаб: ' + FormatFloat('0.000', GetScale) +
       '; Э x: ' + FormatFloat('0.000', Offset.x) + '; Э y: ' +
       FormatFloat('0.000', Offset.y));
+    {if TempFigure <> nil then
+    begin
+      TextOut(0, 20, 'TempFigure');
+      with TempFigure.BoundingBox do
+        Rectangle(W2SX(x1), W2SY(y1), W2SX(x2), W2SY(y2));
+    end;}
   end;
 end;
 
@@ -496,6 +479,18 @@ begin
       Down := True;
     Glyph.LoadFromFile(tool.GetGlyphString);
   end;
+end;
+
+function TMainForm.EnhanceBoundingBox(subj, obj: TDoubleRect): TDoubleRect;
+begin
+  with obj do
+  begin
+    x1 := Min(subj.x1, obj.x1);
+    y1 := Min(subj.y1, obj.y1);
+    x2 := Max(subj.x2, obj.x2);
+    y2 := Max(subj.y2, obj.y2);
+  end;
+  Result := obj;
 end;
 
 initialization

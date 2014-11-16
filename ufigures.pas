@@ -165,7 +165,6 @@ begin
         y2 := Max(Points[i].y, y2);
       end;
   end;
-  UpdateFieldBoundingBox;
 end;
 
 function TArrayPointFigure.BoundingBox(): TDoubleRect;
