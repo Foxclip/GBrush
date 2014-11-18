@@ -1,4 +1,4 @@
-unit UScaleTools;
+unit UOtherTools;
 
 {$mode objfpc}{$H+}
 
@@ -109,8 +109,6 @@ end;
 
 procedure TZoomTool.MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
-var
-  temp: double;
 begin
   if not IsMouseDragged then
   begin

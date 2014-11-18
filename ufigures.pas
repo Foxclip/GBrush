@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Dialogs, Math, UScale, UProperties,
-  UGlobalPointers;
+  UGlobalPointers, ULazregions;
 
 type
 
@@ -19,6 +19,7 @@ type
     procedure SetProperties(canv: TCanvas);
     procedure UnbindProperties;
     function BoundingBox(): TDoubleRect; virtual; abstract;
+    function IsPointInRegion(Point: TPoint): boolean; virtual; abstract;
     constructor Create(props: PropertyArray);
   end;
 
@@ -31,6 +32,7 @@ type
   TTwoPointFigureFilled = class(TTwoPointFigure)
   public
     BrushColor: TColor;
+    function IsPointInRegion(Point: TPoint): boolean; override;
     constructor Create(props: PropertyArray);
   end;
 
@@ -47,6 +49,7 @@ type
   TArrayPointFigureFilled = class(TArrayPointFigure)
   public
     BrushColor: TColor;
+    function IsPointInRegion(Point: TPoint): boolean; override;
     constructor Create(props: PropertyArray);
   end;
 
@@ -73,6 +76,7 @@ type
   TEllipse = class(TTwoPointFigureFilled)
   public
     procedure Draw(Canv: TCanvas); override;
+    function IsPointInRegion(Point: TPoint): boolean; override;
   end;
 
   TPolyLine = class(TArrayPointFigure)
@@ -133,6 +137,18 @@ begin
   end;
 end;
 
+function TTwoPointFigureFilled.IsPointInRegion(Point: TPoint): boolean;
+var
+  Region: TLazRegion;
+  Rect: TRect;
+begin
+  Region := TLazRegion.Create;
+  Rect.TopLeft := W2S(Point1);
+  Rect.BottomRight := W2S(Point2);
+  Region.AddRectangle(Rect);
+  Result := Region.IsPointInRegion(Point.x, Point.y);
+end;
+
 function TFigure.AddProperty(prop: TProperty): TProperty;
 begin
   SetLength(Properties, Length(Properties) + 1);
@@ -178,6 +194,17 @@ begin
   Result := Bounds;
 end;
 
+function TArrayPointFigureFilled.IsPointInRegion(Point: TPoint): boolean;
+var
+  Region: TLazRegion;
+  RegionPoints: TPointArray;
+begin
+  RegionPoints := W2SArray(Points);
+  Region := TLazRegion.Create;
+  Region.AddPolygon(RegionPoints, rfmOddEven);
+  Result := Region.IsPointInRegion(Point.x, Point.y);
+end;
+
 //Карандаш
 
 procedure TPenLine.Draw(Canv: TCanvas);
@@ -195,8 +222,12 @@ procedure TLine.Draw(Canv: TCanvas);
 begin
   Canv.Pen.Color := PenColor;
   SetProperties(canv);
-  Canv.Line(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
-    W2SY(Point2.Y));
+  Canv.Line(
+    W2SX(Point1.X),
+    W2SY(Point1.Y),
+    W2SX(Point2.X),
+    W2SY(Point2.Y)
+    );
 end;
 
 //Прямоугольник
@@ -206,8 +237,12 @@ begin
   Canv.Pen.Color := PenColor;
   Canv.Brush.Color := BrushColor;
   SetProperties(canv);
-  Canv.Rectangle(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
-    W2SY(Point2.Y));
+  Canv.Rectangle(
+    W2SX(Point1.X),
+    W2SY(Point1.Y),
+    W2SX(Point2.X),
+    W2SY(Point2.Y)
+    );
 end;
 
 //Эллипс
@@ -217,8 +252,26 @@ begin
   Canv.Pen.Color := PenColor;
   Canv.Brush.Color := BrushColor;
   SetProperties(canv);
-  Canv.Ellipse(W2SX(Point1.X), W2SY(Point1.Y), W2SX(Point2.X),
-    W2SY(Point2.Y));
+  Canv.Ellipse(
+    W2SX(Point1.X),
+    W2SY(Point1.Y),
+    W2SX(Point2.X),
+    W2SY(Point2.Y)
+    );
+end;
+
+function TEllipse.IsPointInRegion(Point: TPoint): boolean;
+var
+  Region: TLazRegion;
+begin
+  Region := TLazRegion.Create;
+  Region.AddEllipse(
+    W2SX(Point1.x),
+    W2SY(Point1.y),
+    W2SX(Point2.x),
+    W2SY(Point2.y)
+    );
+  Result := Region.IsPointInRegion(Point.x, Point.y);
 end;
 
 //Прямоугольник со скруглёнными углами
@@ -228,8 +281,14 @@ begin
   Canv.Pen.Color := PenColor;
   Canv.Brush.Color := BrushColor;
   SetProperties(canv);
-  Canv.RoundRect(W2SX(Point1.X), W2SY(Point1.Y),
-    W2SX(Point2.X), W2SY(Point2.Y), TempRoundX, TempRoundY);
+  Canv.RoundRect(
+    W2SX(Point1.X),
+    W2SY(Point1.Y),
+    W2SX(Point2.X),
+    W2SY(Point2.Y),
+    TempRoundX,
+    TempRoundY
+    );
 end;
 
 //Ломаная

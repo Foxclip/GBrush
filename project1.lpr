@@ -5,11 +5,11 @@ program project1;
 uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   cthreads, {$ENDIF} {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms,
+  Forms, ULazregions,
   UMainForm,
   UTools,
   UFigures,
-  UScale, UScaleTools, 
+  UScale, UOtherTools, 
 UGlobalPointers, UProperties;
 
 {$R *.res}

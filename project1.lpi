@@ -36,7 +36,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="8">
+    <Units Count="9">
       <Unit0>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -66,9 +66,9 @@
         <UnitName Value="UScale"/>
       </Unit4>
       <Unit5>
-        <Filename Value="uscaletools.pas"/>
+        <Filename Value="uothertools.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="UScaleTools"/>
+        <UnitName Value="UOtherTools"/>
       </Unit5>
       <Unit6>
         <Filename Value="uglobalpointers.pas"/>
@@ -80,6 +80,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="UProperties"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="ulazregions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ULazregions"/>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -51,7 +51,8 @@ type
       Shift: TShiftState; X, Y: integer);
     procedure MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: integer);
-    procedure MouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
+    procedure MouseMove(Sender: TObject; Shift: TShiftState;
+      X, Y: integer);
     procedure Paint(Sender: TObject);
     procedure InstrumentButtonClick(Sender: TObject);
     procedure CreateToolControls;
@@ -272,8 +273,8 @@ begin
   begin
     x1 := Math.Min(Offset.x, FieldBoundingBox.x1);
     y1 := Math.Min(Offset.y, FieldBoundingBox.y1);
-    x2 := Math.Max(Offset.x + MainPaintBox.Width /
-      GetScale, FieldBoundingBox.x2);
+    x2 := Math.Max(Offset.x + MainPaintBox.Width / GetScale,
+      FieldBoundingBox.x2);
     y2 := Math.Max(Offset.y + MainPaintBox.Height / GetScale,
       FieldBoundingBox.y2);
     case ScrollCode of
