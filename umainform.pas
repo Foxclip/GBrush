@@ -71,6 +71,7 @@ const
   ButtonDist = 10;
   MinWidth = 10;
   MinHeight = 10;
+  SelectBoxOffset = 5;
 
 var
   ButtonCols: integer;
@@ -420,6 +421,22 @@ begin
     for i := Low(FigureArray) to High(FigureArray) do
     begin
       FigureArray[i].Draw(MainPaintBox.Canvas);
+    end;
+    for i := Low(FigureArray) to High(FigureArray) do
+    begin
+      if FigureArray[i].IsSelected then
+      begin
+        Pen.Color := clRed;
+        Pen.Style := psDash;
+        Pen.Width := 2;
+        Brush.Style := bsClear;
+        Rectangle(
+          W2SX(FigureArray[i].BoundingBox.x1 - SelectBoxOffset),
+          W2SY(FigureArray[i].BoundingBox.y1 - SelectBoxOffset),
+          W2SX(FigureArray[i].BoundingBox.x2 + SelectBoxOffset),
+          W2SY(FigureArray[i].BoundingBox.y2 + SelectBoxOffset)
+          );
+      end;
     end;
     if TempFigure <> nil then
       TempFigure.Draw(MainPaintBox.Canvas);

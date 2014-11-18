@@ -14,6 +14,7 @@ type
   public
     PenColor: TColor;
     Properties: array of TProperty;
+    IsSelected: boolean;
     procedure Draw(Canv: TCanvas); virtual; abstract;
     function AddProperty(prop: TProperty): TProperty;
     procedure SetProperties(canv: TCanvas);
@@ -208,8 +209,6 @@ end;
 //Карандаш
 
 procedure TPenLine.Draw(Canv: TCanvas);
-var
-  i: integer;
 begin
   Canv.Pen.Color := PenColor;
   SetProperties(canv);
@@ -266,10 +265,10 @@ var
 begin
   Region := TLazRegion.Create;
   Region.AddEllipse(
-    W2SX(Point1.x),
-    W2SY(Point1.y),
-    W2SX(Point2.x),
-    W2SY(Point2.y)
+    W2SX(Point1.X),
+    W2SY(Point1.Y),
+    W2SX(Point2.X),
+    W2SY(Point2.Y)
     );
   Result := Region.IsPointInRegion(Point.x, Point.y);
 end;

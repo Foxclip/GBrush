@@ -33,6 +33,17 @@ type
     function GetGlyphString: string; override;
   end;
 
+  TSelectTool = class(TTool)
+    IsMouseDragged: boolean;
+    procedure MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; MousePoint: TDoublePoint); override;
+    procedure MouseMove(Sender: TObject; Shift: TShiftState;
+      MousePoint: TDoublePoint); override;
+    procedure MouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; MousePoint: TDoublePoint); override;
+    function GetGlyphString: string; override;
+  end;
+
 const
   ScaleMultiplier = 1.5;
 
@@ -148,9 +159,46 @@ begin
   Result := 'glyphs/zoom.bmp';
 end;
 
+//Выделение
+
+procedure TSelectTool.MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; MousePoint: TDoublePoint);
+var
+  i: integer;
+begin
+  IsMouseDragged := False;
+  for i := Low(FigureArray) to High(FigureArray) do
+  begin
+    if FigureArray[i].IsPointInRegion(W2S(MousePoint)) then
+    begin
+      if Button = mbLeft then
+        FigureArray[i].IsSelected := True
+      else if Button = mbRight then
+        FigureArray[i].IsSelected := False;
+    end;
+  end;
+end;
+
+procedure TSelectTool.MouseMove(Sender: TObject; Shift: TShiftState;
+  MousePoint: TDoublePoint);
+begin
+end;
+
+procedure TSelectTool.MouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; MousePoint: TDoublePoint);
+begin
+
+end;
+
+function TSelectTool.GetGlyphString: string;
+begin
+  Result := 'glyphs/select.bmp';
+end;
+
 initialization
 
   RegisterTool(THandTool.Create);
   RegisterTool(TZoomTool.Create);
+  RegisterTool(TSelectTool.Create);
 
 end.
