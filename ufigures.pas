@@ -12,7 +12,6 @@ type
 
   TFigure = class
   public
-    PenColor: TColor;
     Properties: array of TProperty;
     IsSelected: boolean;
     procedure Draw(Canv: TCanvas); virtual; abstract;
@@ -120,7 +119,6 @@ begin
   begin
     Properties[i] := props[i];
   end;
-  PenColor := GlobalPenColor;
 end;
 
 function TTwoPointFigure.BoundingBox(): TDoubleRect;

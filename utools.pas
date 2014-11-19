@@ -262,7 +262,7 @@ begin
   AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
-  AddProperty(TBrushStyleProperty.Create(bsClear));
+  AddProperty(TBrushStyleProperty.Create(bsSolid));
 end;
 
 procedure TRectangleTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -319,7 +319,7 @@ begin
   AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
-  AddProperty(TBrushStyleProperty.Create(bsClear));
+  AddProperty(TBrushStyleProperty.Create(bsSolid));
 end;
 
 procedure TEllipseTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -376,7 +376,7 @@ begin
   AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
-  AddProperty(TBrushStyleProperty.Create(bsClear));
+  AddProperty(TBrushStyleProperty.Create(bsSolid));
   AddProperty(TRoundProperty.Create(50, 50));
 end;
 
@@ -488,7 +488,7 @@ begin
   AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
-  AddProperty(TBrushStyleProperty.Create(bsClear));
+  AddProperty(TBrushStyleProperty.Create(bsSolid));
 end;
 
 procedure TPolygonTool.MouseDown(Sender: TObject; Button: TMouseButton;
@@ -543,7 +543,7 @@ begin
   AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
-  AddProperty(TBrushStyleProperty.Create(bsClear));
+  AddProperty(TBrushStyleProperty.Create(bsSolid));
   prop := AddProperty(TVerticesNumProperty.Create(6, @BuildRegularPolygon));
   BuildMethodBack := @prop.PushProperty;
 end;
@@ -622,10 +622,10 @@ initialization
   RegisterTool(TPenTool.Create);
   RegisterTool(TLineTool.Create);
   RegisterTool(TRectangleTool.Create);
-  RegisterTool(TEllipseTool.Create);
-  RegisterTool(TPolyLineTool.Create);
+  //RegisterTool(TEllipseTool.Create);
+  //RegisterTool(TPolyLineTool.Create);
   RegisterTool(TPolygonTool.Create);
-  RegisterTool(TRegularPolygonTool.Create);
+  //RegisterTool(TRegularPolygonTool.Create);
   RegisterTool(TRoundedRectangleTool.Create);
 
 end.

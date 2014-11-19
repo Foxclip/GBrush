@@ -127,8 +127,8 @@ object MainForm: TMainForm
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = FirstColorImage
       Left = 1
-      Height = 193
-      Top = 296
+      Height = 249
+      Top = 240
       Width = 138
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Bottom = 10

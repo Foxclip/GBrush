@@ -440,6 +440,8 @@ begin
     begin
       FigureArray[i].Draw(MainPaintBox.Canvas);
     end;
+    if TempFigure <> nil then
+      TempFigure.Draw(MainPaintBox.Canvas);
     for i := Low(FigureArray) to High(FigureArray) do
     begin
       if FigureArray[i].IsSelected then
@@ -459,8 +461,6 @@ begin
         end;
       end;
     end;
-    if TempFigure <> nil then
-      TempFigure.Draw(MainPaintBox.Canvas);
     Pen.Style := psSolid;
     Pen.Color := clRed;
     Pen.Width := 1;

@@ -106,7 +106,7 @@ begin
       TempZoomRectangle.Point2 := MousePoint;
       with TempZoomRectangle do
       begin
-        PenColor := clBlack;
+        AddProperty(TPenColorProperty.Create(clBlack));
         AddProperty(TPenWidthProperty.Create(1));
         AddProperty(TPenStyleProperty.Create(psDash));
         AddProperty(TBrushStyleProperty.Create(bsClear));
