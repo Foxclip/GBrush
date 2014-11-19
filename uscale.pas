@@ -5,13 +5,9 @@ unit UScale;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Math, UGlobalPointers;
+  Classes, SysUtils, Graphics, Math, UGlobalPointers, UUtils;
 
 type
-
-  TDoublePoint = record
-    x, y: double;
-  end;
 
   TDoubleRect = record
     x1, y1, x2, y2: double;

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Dialogs, Math, UScale, UProperties,
-  UGlobalPointers, ULazregions;
+  UGlobalPointers, ULazregions, UUtils;
 
 type
 
@@ -57,11 +57,13 @@ type
   TPenLine = class(TArrayPointFigure)
   public
     procedure Draw(Canv: TCanvas); override;
+    function IsPointInRegion(Point: TPoint): boolean; override;
   end;
 
   TLine = class(TTwoPointFigure)
   public
     procedure Draw(Canv: TCanvas); override;
+    function IsPointInRegion(Point: TPoint): boolean; override;
   end;
 
   TRectangle = class(TTwoPointFigureFilled)
@@ -83,6 +85,7 @@ type
   TPolyLine = class(TArrayPointFigure)
   public
     procedure Draw(Canv: TCanvas); override;
+    function IsPointInRegion(Point: TPoint): boolean; override;
   end;
 
   TPolygon = class(TArrayPointFigureFilled)
@@ -96,8 +99,13 @@ type
     procedure Draw(Canv: TCanvas); override;
   end;
 
+const
+  LineOffset = 10;
+
 var
   FigureArray: array of TFigure;
+
+function LineToPolygon(Point1, Point2: TDoublePoint): TPointArray;
 
 procedure AddFigure(Fig: TFigure);
 
@@ -215,6 +223,21 @@ begin
   Canv.Polyline(W2SArray(Points));
 end;
 
+function TPenLine.IsPointInRegion(Point: TPoint): boolean;
+var
+  i: integer;
+  Region: TLazRegion;
+  RegionPoints: TPointArray;
+begin
+  Region := TLazRegion.Create;
+  for i := Low(Points) to High(Points) - 1 do
+  begin
+    RegionPoints := LineToPolygon(Points[i], Points[i + 1]);
+    Region.AddPolygon(RegionPoints, rfmOddEven);
+  end;
+  Result := Region.IsPointInRegion(Point.x, Point.y);
+end;
+
 //Линия
 
 procedure TLine.Draw(Canv: TCanvas);
@@ -227,6 +250,17 @@ begin
     W2SX(Point2.X),
     W2SY(Point2.Y)
     );
+end;
+
+function TLine.IsPointInRegion(Point: TPoint): boolean;
+var
+  Region: TLazRegion;
+  RegionPoints: TPointArray;
+begin
+  Region := TLazRegion.Create;
+  RegionPoints := LineToPolygon(Point1, Point2);
+  Region.AddPolygon(RegionPoints, rfmOddEven);
+  Result := Region.IsPointInRegion(Point.x, Point.y);
 end;
 
 //Прямоугольник
@@ -299,6 +333,21 @@ begin
   Canv.Polyline(W2SArray(Points));
 end;
 
+function TPolyLine.IsPointInRegion(Point: TPoint): boolean;
+var
+  i: integer;
+  Region: TLazRegion;
+  RegionPoints: TPointArray;
+begin
+  Region := TLazRegion.Create;
+  for i := Low(Points) to High(Points) - 1 do
+  begin
+    RegionPoints := LineToPolygon(Points[i], Points[i + 1]);
+    Region.AddPolygon(RegionPoints, rfmOddEven);
+  end;
+  Result := Region.IsPointInRegion(Point.x, Point.y);
+end;
+
 //Многоугольник
 
 procedure TPolygon.Draw(Canv: TCanvas);
@@ -335,6 +384,39 @@ begin
   begin
     Properties[i] := Properties[i].CreateCopy();
   end;
+end;
+
+function LineToPolygon(Point1, Point2: TDoublePoint): TPointArray;
+var
+  d, p: double;
+  x1, y1, x2, y2, x, y, sx, sy: double;
+  p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y: double;
+  RegionPoints: TPointArray;
+begin
+  x1 := Point1.x;
+  y1 := Point1.y;
+  x2 := Point2.x;
+  y2 := Point2.y;
+  d := sqrt(sqr(x2 - x1) + sqr(y2 - y1));
+  p := (LineOffset / Scale) / d;
+  x := x2 - x1;
+  y := y2 - y1;
+  sx := p * x;
+  sy := p * y;
+  p1x := x1 - sy;
+  p1y := y1 + sx;
+  p2x := x1 + sy;
+  p2y := y1 - sx;
+  p3x := x2 + sy;
+  p3y := y2 - sx;
+  p4x := x2 - sy;
+  p4y := y2 + sx;
+  SetLength(RegionPoints, 4);
+  RegionPoints[0] := W2S(D2P(p1x, p1y));
+  RegionPoints[1] := W2S(D2P(p2x, p2y));
+  RegionPoints[2] := W2S(D2P(p3x, p3y));
+  RegionPoints[3] := W2S(D2P(p4x, p4y));
+  Result := RegionPoints;
 end;
 
 end.

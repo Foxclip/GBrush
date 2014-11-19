@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, Dialogs, Buttons, UFigures,
-  ExtCtrls, UScale, UProperties, UGlobalPointers, Math;
+  ExtCtrls, UScale, UProperties, UGlobalPointers, Math, UUtils;
 
 type
 

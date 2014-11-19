@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, Buttons, Grids, Spin, UFigures, UTools,
-  UScale, types, Math, UGlobalPointers;
+  UScale, types, Math, UGlobalPointers, UUtils;
 
 type
 
@@ -430,12 +430,15 @@ begin
         Pen.Style := psDash;
         Pen.Width := 2;
         Brush.Style := bsClear;
-        Rectangle(
-          W2SX(FigureArray[i].BoundingBox.x1 - SelectBoxOffset),
-          W2SY(FigureArray[i].BoundingBox.y1 - SelectBoxOffset),
-          W2SX(FigureArray[i].BoundingBox.x2 + SelectBoxOffset),
-          W2SY(FigureArray[i].BoundingBox.y2 + SelectBoxOffset)
-          );
+        with FigureArray[i].BoundingBox do
+        begin
+          Rectangle(
+            W2SX(x1 - SelectBoxOffset),
+            W2SY(y1 - SelectBoxOffset),
+            W2SX(x2 + SelectBoxOffset),
+            W2SY(y2 + SelectBoxOffset)
+            );
+        end;
       end;
     end;
     if TempFigure <> nil then
