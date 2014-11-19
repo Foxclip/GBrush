@@ -176,7 +176,10 @@ begin
     if FigureArray[i].IsPointInRegion(W2S(MousePoint)) then
     begin
       if Button = mbLeft then
-        FigureArray[i].IsSelected := True
+      begin
+        FigureArray[i].IsSelected := True;
+        //PropertyBuffer
+      end
       else if Button = mbRight then
         FigureArray[i].IsSelected := False;
       Exit;

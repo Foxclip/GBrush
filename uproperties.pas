@@ -21,6 +21,9 @@ type
 
   PropertyArray = array of TProperty;
 
+type
+  PropertyHub = array of PropertyArray;
+
   TPenColorProperty = class(TProperty)
     PenColor: TColor;
     Dialog: TColorDialog;
@@ -89,12 +92,20 @@ type
     constructor Create(X, Y: integer);
   end;
 
+  TPropertyBuffer = class
+    Properties: PropertyArray;
+    procedure Intersect(hub: PropertyHub);
+    procedure AddProperty(prop: TProperty);
+    class function Search(props: PropertyArray; Name: string): boolean; static;
+  end;
+
 const
   ItmHeight = 30;
 
 var
   TempRoundX, TempRoundY: integer;
   TempVertices: integer;
+  PropertyBuffer: TPropertyBuffer;
 
 implementation
 
@@ -382,6 +393,38 @@ end;
 function TRoundProperty.CreateCopy(): TProperty;
 begin
   Result := TRoundProperty.Create(RoundX, RoundY);
+end;
+
+procedure TPropertyBuffer.AddProperty(prop: TProperty);
+begin
+  SetLength(Properties, Length(Properties) + 1);
+  Properties[High(Properties)] := prop.CreateCopy();
+end;
+
+procedure TPropertyBuffer.Intersect(hub: PropertyHub);
+var
+  i, j, c: integer;
+begin
+  for i := Low(hub) to High(hub) do
+  begin
+
+  end;
+end;
+
+class function TPropertyBuffer.Search(props: PropertyArray;
+  Name: string): boolean;
+var
+  i, j, c: integer;
+begin
+  Result := False;
+  for i := Low(props) to High(props) do
+  begin
+    if props[i].ClassName = ClassName then
+    begin
+      Result := True;
+      Exit;
+    end;
+  end;
 end;
 
 end.
