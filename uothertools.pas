@@ -167,7 +167,7 @@ var
   i: integer;
 begin
   IsMouseDragged := False;
-  for i := Low(FigureArray) to High(FigureArray) do
+  for i := High(FigureArray) downto Low(FigureArray) do
   begin
     if FigureArray[i].IsPointInRegion(W2S(MousePoint)) then
     begin
@@ -175,6 +175,7 @@ begin
         FigureArray[i].IsSelected := True
       else if Button = mbRight then
         FigureArray[i].IsSelected := False;
+      Exit;
     end;
   end;
 end;

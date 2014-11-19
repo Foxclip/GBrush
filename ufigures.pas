@@ -24,6 +24,9 @@ type
     constructor Create(props: PropertyArray);
   end;
 
+  TSelectionStyle = class(TFigure)
+  end;
+
   TTwoPointFigure = class(TFigure)
   public
     Point1, Point2: TDoublePoint;
@@ -104,6 +107,7 @@ const
 
 var
   FigureArray: array of TFigure;
+  SelectionStyle: TSelectionStyle;
 
 function LineToPolygon(Point1, Point2: TDoublePoint): TPointArray;
 
@@ -220,6 +224,8 @@ procedure TPenLine.Draw(Canv: TCanvas);
 begin
   Canv.Pen.Color := PenColor;
   SetProperties(canv);
+  if IsSelected then
+    SelectionStyle.SetProperties(Canv);
   Canv.Polyline(W2SArray(Points));
 end;
 
@@ -244,6 +250,8 @@ procedure TLine.Draw(Canv: TCanvas);
 begin
   Canv.Pen.Color := PenColor;
   SetProperties(canv);
+  if IsSelected then
+    SelectionStyle.SetProperties(Canv);
   Canv.Line(
     W2SX(Point1.X),
     W2SY(Point1.Y),
@@ -270,6 +278,8 @@ begin
   Canv.Pen.Color := PenColor;
   Canv.Brush.Color := BrushColor;
   SetProperties(canv);
+  if IsSelected then
+    SelectionStyle.SetProperties(Canv);
   Canv.Rectangle(
     W2SX(Point1.X),
     W2SY(Point1.Y),
@@ -285,6 +295,8 @@ begin
   Canv.Pen.Color := PenColor;
   Canv.Brush.Color := BrushColor;
   SetProperties(canv);
+  if IsSelected then
+    SelectionStyle.SetProperties(Canv);
   Canv.Ellipse(
     W2SX(Point1.X),
     W2SY(Point1.Y),
@@ -314,6 +326,8 @@ begin
   Canv.Pen.Color := PenColor;
   Canv.Brush.Color := BrushColor;
   SetProperties(canv);
+  if IsSelected then
+    SelectionStyle.SetProperties(Canv);
   Canv.RoundRect(
     W2SX(Point1.X),
     W2SY(Point1.Y),
@@ -330,6 +344,8 @@ procedure TPolyLine.Draw(Canv: TCanvas);
 begin
   Canv.Pen.Color := PenColor;
   SetProperties(canv);
+  if IsSelected then
+    SelectionStyle.SetProperties(Canv);
   Canv.Polyline(W2SArray(Points));
 end;
 
@@ -355,6 +371,8 @@ begin
   Canv.Pen.Color := PenColor;
   Canv.Brush.Color := BrushColor;
   SetProperties(canv);
+  if IsSelected then
+    SelectionStyle.SetProperties(Canv);
   Canv.Polygon(W2SArray(Points));
 end;
 
@@ -365,6 +383,8 @@ begin
   Canv.Pen.Color := PenColor;
   Canv.Brush.Color := BrushColor;
   SetProperties(canv);
+  if IsSelected then
+    SelectionStyle.SetProperties(Canv);
   Canv.Polygon(W2SArray(Points));
 end;
 
@@ -418,5 +438,10 @@ begin
   RegionPoints[3] := W2S(D2P(p4x, p4y));
   Result := RegionPoints;
 end;
+
+initialization
+
+  SelectionStyle := TSelectionStyle.Create(nil);
+  SelectionStyle.AddProperty(TPenStyleProperty.Create(psDot));
 
 end.
