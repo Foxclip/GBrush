@@ -30,6 +30,8 @@ type
     ColorChangeButton: TSpeedButton;
     procedure ClearButtonClick(Sender: TObject);
     procedure ColorChangeButtonClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure FormKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure ScrollBarScroll(Sender: TObject; ScrollCode: TScrollCode;
       var ScrollPos: integer);
@@ -221,6 +223,22 @@ begin
   SetPenColor(GlobalBrushColor);
   SetBrushColor(temp);
   UpdateColors;
+end;
+
+procedure TMainForm.FormKeyDown(Sender: TObject; var Key: word;
+  Shift: TShiftState);
+begin
+  case Key of
+    17: GlobalIsKeyDownControl := True;
+  end;
+end;
+
+procedure TMainForm.FormKeyUp(Sender: TObject; var Key: word;
+  Shift: TShiftState);
+begin
+  case Key of
+    17: GlobalIsKeyDownControl := False;
+  end;
 end;
 
 procedure TMainForm.ClearButtonClick(Sender: TObject);
@@ -428,7 +446,7 @@ begin
       begin
         Pen.Color := clBlue;
         Pen.Style := psDash;
-        Pen.Width := 2;
+        Pen.Width := 1;
         Brush.Style := bsClear;
         with FigureArray[i].BoundingBox do
         begin

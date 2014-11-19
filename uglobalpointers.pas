@@ -19,6 +19,7 @@ var
   GlobalInitUi: PointerToMethod;
   GlobalCanvasInvalidate: PointerToMethod;
   GlobalWidth, GlobalHeight: integer;
+  GlobalIsKeyDownControl: boolean;
 
 implementation
 

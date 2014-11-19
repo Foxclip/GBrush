@@ -7,6 +7,8 @@ object MainForm: TMainForm
   ClientHeight = 580
   ClientWidth = 1069
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnKeyUp = FormKeyUp
   OnResize = FormResize
   LCLVersion = '1.0.14.0'
   object MainPaintBox: TPaintBox

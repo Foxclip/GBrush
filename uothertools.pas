@@ -165,8 +165,12 @@ procedure TSelectTool.MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; MousePoint: TDoublePoint);
 var
   i: integer;
+  Count: integer;
 begin
   IsMouseDragged := False;
+  if not GlobalIsKeyDownControl then
+    for i := Low(FigureArray) to High(FigureArray) do
+      FigureArray[i].IsSelected := False;
   for i := High(FigureArray) downto Low(FigureArray) do
   begin
     if FigureArray[i].IsPointInRegion(W2S(MousePoint)) then
