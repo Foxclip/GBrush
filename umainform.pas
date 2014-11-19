@@ -419,7 +419,28 @@ begin
     Brush.Style := bsSolid;
     Rectangle(0, 0, Width, Height);
     for i := Low(FigureArray) to High(FigureArray) do
+    begin
       FigureArray[i].Draw(MainPaintBox.Canvas);
+    end;
+    for i := Low(FigureArray) to High(FigureArray) do
+    begin
+      if FigureArray[i].IsSelected then
+      begin
+        Pen.Color := clBlue;
+        Pen.Style := psDash;
+        Pen.Width := 2;
+        Brush.Style := bsClear;
+        with FigureArray[i].BoundingBox do
+        begin
+          Rectangle(
+            W2SX(x1 - SelectBoxOffset),
+            W2SY(y1 - SelectBoxOffset),
+            W2SX(x2 + SelectBoxOffset),
+            W2SY(y2 + SelectBoxOffset)
+            );
+        end;
+      end;
+    end;
     if TempFigure <> nil then
       TempFigure.Draw(MainPaintBox.Canvas);
     Pen.Style := psSolid;

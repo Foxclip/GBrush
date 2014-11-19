@@ -150,6 +150,8 @@ end;
 
 constructor TPenTool.Create;
 begin
+  AddProperty(TPenColorProperty.Create(clBlack));
+  AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
 end;
@@ -200,6 +202,8 @@ end;
 
 constructor TLineTool.Create;
 begin
+  AddProperty(TPenColorProperty.Create(clBlack));
+  AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
 end;
@@ -254,6 +258,8 @@ end;
 
 constructor TRectangleTool.Create;
 begin
+  AddProperty(TPenColorProperty.Create(clBlack));
+  AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TBrushStyleProperty.Create(bsClear));
@@ -309,6 +315,8 @@ end;
 
 constructor TEllipseTool.Create;
 begin
+  AddProperty(TPenColorProperty.Create(clBlack));
+  AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TBrushStyleProperty.Create(bsClear));
@@ -364,6 +372,8 @@ end;
 
 constructor TRoundedRectangleTool.Create;
 begin
+  AddProperty(TPenColorProperty.Create(clBlack));
+  AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TBrushStyleProperty.Create(bsClear));
@@ -420,6 +430,8 @@ end;
 
 constructor TPolyLineTool.Create;
 begin
+  AddProperty(TPenColorProperty.Create(clBlack));
+  AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
 end;
@@ -472,6 +484,8 @@ end;
 
 constructor TPolyGonTool.Create;
 begin
+  AddProperty(TPenColorProperty.Create(clBlack));
+  AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TBrushStyleProperty.Create(bsClear));
@@ -525,6 +539,8 @@ constructor TRegularPolygonTool.Create;
 var
   prop: TProperty;
 begin
+  AddProperty(TPenColorProperty.Create(clBlack));
+  AddProperty(TBrushColorProperty.Create(clWhite));
   AddProperty(TPenWidthProperty.Create(1));
   AddProperty(TPenStyleProperty.Create(psSolid));
   AddProperty(TBrushStyleProperty.Create(bsClear));

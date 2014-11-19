@@ -21,6 +21,28 @@ type
 
   PropertyArray = array of TProperty;
 
+  TPenColorProperty = class(TProperty)
+    PenColor: TColor;
+    Dialog: TColorDialog;
+    Button: TColorButton;
+    procedure PushProperty(canv: TCanvas); override;
+    procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
+    constructor Create(col: TColor);
+  end;
+
+  TBrushColorProperty = class(TProperty)
+    BrushColor: TColor;
+    Dialog: TColorDialog;
+    Button: TColorButton;
+    procedure PushProperty(canv: TCanvas); override;
+    procedure CreateEdit(panel: TPanel; index: integer); override;
+    procedure PropertyChange(Sender: TObject); override;
+    function CreateCopy(): TProperty; override;
+    constructor Create(col: TColor);
+  end;
+
   TPenStyleProperty = class(TProperty)
     PenStyle: TPenStyle;
     procedure PushProperty(canv: TCanvas); override;
@@ -76,6 +98,16 @@ var
 
 implementation
 
+constructor TPenColorProperty.Create(col: TColor);
+begin
+  PenColor := col;
+end;
+
+constructor TBrushColorProperty.Create(col: TColor);
+begin
+  BrushColor := col;
+end;
+
 constructor TPenStyleProperty.Create(ps: TPenStyle);
 begin
   PenStyle := ps;
@@ -102,6 +134,60 @@ constructor TRoundProperty.Create(X, Y: integer);
 begin
   RoundX := X;
   RoundY := Y;
+end;
+
+procedure TPenColorProperty.PushProperty(canv: TCanvas);
+begin
+  canv.Pen.Color := PenColor;
+end;
+
+procedure TPenColorProperty.CreateEdit(panel: TPanel; index: integer);
+begin
+  Dialog := TColorDialog.Create(panel);
+  Button := TColorButton.Create(panel);
+  Button.OnColorChanged := @PropertyChange;
+  Button.Parent := panel;
+  Button.ColorDialog := Dialog;
+  Button.Color := PenColor;
+  Button.SetBounds(5, index * ItmHeight, Button.Width, Button.Height);
+end;
+
+procedure TPenColorProperty.PropertyChange(Sender: TObject);
+begin
+  PenColor := Button.ButtonColor;
+  GlobalCanvasInvalidate;
+end;
+
+function TPenColorProperty.CreateCopy(): TProperty;
+begin
+  Result := TPenColorProperty.Create(PenColor);
+end;
+
+procedure TBrushColorProperty.PushProperty(canv: TCanvas);
+begin
+  canv.Brush.Color := BrushColor;
+end;
+
+procedure TBrushColorProperty.CreateEdit(panel: TPanel; index: integer);
+begin
+  Dialog := TColorDialog.Create(panel);
+  Button := TColorButton.Create(panel);
+  Button.OnColorChanged := @PropertyChange;
+  Button.Parent := panel;
+  Button.ColorDialog := Dialog;
+  Button.Color := BrushColor;
+  Button.SetBounds(5, index * ItmHeight, Button.Width, Button.Height);
+end;
+
+procedure TBrushColorProperty.PropertyChange(Sender: TObject);
+begin
+  BrushColor := Button.ButtonColor;
+  GlobalCanvasInvalidate;
+end;
+
+function TBrushColorProperty.CreateCopy(): TProperty;
+begin
+  Result := TBrushColorProperty.Create(BrushColor);
 end;
 
 procedure TPenStyleProperty.PushProperty(canv: TCanvas);

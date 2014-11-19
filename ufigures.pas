@@ -35,9 +35,7 @@ type
 
   TTwoPointFigureFilled = class(TTwoPointFigure)
   public
-    BrushColor: TColor;
     function IsPointInRegion(Point: TPoint): boolean; override;
-    constructor Create(props: PropertyArray);
   end;
 
   PointArray = array of TDoublePoint;
@@ -52,9 +50,7 @@ type
 
   TArrayPointFigureFilled = class(TArrayPointFigure)
   public
-    BrushColor: TColor;
     function IsPointInRegion(Point: TPoint): boolean; override;
-    constructor Create(props: PropertyArray);
   end;
 
   TPenLine = class(TArrayPointFigure)
@@ -125,18 +121,6 @@ begin
     Properties[i] := props[i];
   end;
   PenColor := GlobalPenColor;
-end;
-
-constructor TTwoPointFigureFilled.Create(props: PropertyArray);
-begin
-  inherited Create(props);
-  BrushColor := GlobalBrushColor;
-end;
-
-constructor TArrayPointFigureFilled.Create(props: PropertyArray);
-begin
-  inherited Create(props);
-  BrushColor := GlobalBrushColor;
 end;
 
 function TTwoPointFigure.BoundingBox(): TDoubleRect;
@@ -222,7 +206,6 @@ end;
 
 procedure TPenLine.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
   SetProperties(canv);
   if IsSelected then
     SelectionStyle.SetProperties(Canv);
@@ -248,7 +231,6 @@ end;
 
 procedure TLine.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
   SetProperties(canv);
   if IsSelected then
     SelectionStyle.SetProperties(Canv);
@@ -275,8 +257,6 @@ end;
 
 procedure TRectangle.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Brush.Color := BrushColor;
   SetProperties(canv);
   if IsSelected then
     SelectionStyle.SetProperties(Canv);
@@ -292,8 +272,6 @@ end;
 
 procedure TEllipse.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Brush.Color := BrushColor;
   SetProperties(canv);
   if IsSelected then
     SelectionStyle.SetProperties(Canv);
@@ -323,8 +301,6 @@ end;
 
 procedure TRoundedRectangle.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Brush.Color := BrushColor;
   SetProperties(canv);
   if IsSelected then
     SelectionStyle.SetProperties(Canv);
@@ -342,7 +318,6 @@ end;
 
 procedure TPolyLine.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
   SetProperties(canv);
   if IsSelected then
     SelectionStyle.SetProperties(Canv);
@@ -368,8 +343,6 @@ end;
 
 procedure TPolygon.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Brush.Color := BrushColor;
   SetProperties(canv);
   if IsSelected then
     SelectionStyle.SetProperties(Canv);
@@ -380,8 +353,6 @@ end;
 
 procedure TRegularPolygon.Draw(Canv: TCanvas);
 begin
-  Canv.Pen.Color := PenColor;
-  Canv.Brush.Color := BrushColor;
   SetProperties(canv);
   if IsSelected then
     SelectionStyle.SetProperties(Canv);
@@ -443,5 +414,6 @@ initialization
 
   SelectionStyle := TSelectionStyle.Create(nil);
   SelectionStyle.AddProperty(TPenStyleProperty.Create(psDot));
+  SelectionStyle.AddProperty(TPenColorProperty.Create(clRed));
 
 end.
